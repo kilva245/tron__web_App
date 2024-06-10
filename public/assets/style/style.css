@@ -1,6 +1,228 @@
 :root {
-    --firt-color: #007392;
+    --firt-color: #00729271;
 }
+
+html {
+    background-color: #000000fd;
+}
+
+main {
+    padding: 0 15px;
+}
+
+
+/*
+-----------------------------------------
+-----------------------------------------
+-------------- Header ---------------
+-----------------------------------------
+-----------------------------------------
+*/
+
+header .buttons {
+    display: flex;
+    flex-direction: row;
+    width: 400px;
+    flex-wrap: nowrap !important;
+}
+
+
+.buttonn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.button_ti {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    width: 100%;
+    height: fit-content;
+    margin: 0 auto;
+    
+}
+
+.btnn , .button_ti .btnn{
+    letter-spacing: .1em;
+    font-size: 15px;
+    line-height: 45px;
+    max-width: 150px;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+    width: 100%;
+    height: fit-content;
+    border-radius: 60px;
+}
+
+.fx01 , .button_ti .fx01 {
+    color: white;
+    border: 1px solid black;
+    box-shadow: inset 0 0 0 1px black;
+    background-color: black;
+    overflow: hidden;
+    position: relative;
+    transition: all .3s ease-in-out;
+    
+    border: 2px solid var(--firt-color);
+}
+
+.fx01:hover , .button_ti .fx01:hover{
+    border: 2px solid gray;
+    background-color: var(--firt-color);
+    box-sizing: inset 0 0 0 4px #eee;
+}
+
+.fx01 span , .button_ti .fx01 span{
+    transition: all.2s ease-out;
+    z-index: -2;
+}
+
+.fx01:hover span , .button_ti .fx01:hover span {
+    letter-spacing: .1em;
+    color: #bebebe;
+}
+
+
+/*Creating the light source, this is the magic*/
+.fx01::after , .button_ti .fx01::after{
+    background: #fff;
+    border: 0 solid #000;
+    content: '';
+    height: 155px;
+    position: absolute;
+    left: -75px;
+    top: -50px;
+    opacity: .8;
+    transform: rotate(35deg);
+    width: 50px;
+    transition: all 1s cubic-bezier(.175, .52, .165, 1);
+    z-index: 1;
+}
+
+/*Hover to cause the effect*/
+.fx01:hover::after , .button_ti .fx01:hover::after {
+    background: #fff;
+    border: 20px solid #000;
+    opacity: 0;
+    left: 120%;
+    transform: rotate(40deg);
+}
+
+/*
+-----------------------------------------
+-----------------------------------------
+-------------- home body ---------------
+-----------------------------------------
+-----------------------------------------
+*/
+
+.mobile__signUp {
+    display: none;
+}
+
+.hero .hero_it{
+    position: absolute;
+    padding: 18em;
+    border-right: 3px solid var(--firt-color);
+    border-bottom-right-radius: 50em;
+    left: 0;
+    box-shadow: 0 0 10px 0 var(--firt-color);
+}
+
+.hero .hero_it1{
+    position: absolute;
+    padding: 20em;
+    border-left: 3px solid var(--firt-color);
+    border-top-left-radius: 50em;
+    right: -30em;
+    box-shadow: 0 0 10px 0 var(--firt-color);
+}
+
+.hero__title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hero__title h1 {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.hero__title p{
+    color: #888;
+}
+
+.wallet__info {
+    background-color: #0072927e;
+    border-radius: 20px;
+    mix-blend-mode: normal;
+    box-shadow: inset 0 0 5px 1px #000000ab;
+    border: 1px solid #000;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+}
+
+.wallet__info .inner_icon{
+    padding: 40px;
+    background-color: rgba(255, 255, 255, 0.11);
+    border-radius: 50px;
+    position: absolute;
+    top: -2em;
+    z-index: 0;
+    right: -1em;
+}
+
+.wallet__info .inner_icon:nth-child(1) {
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.11);
+    border-radius: 50px;
+    position: absolute;
+    top: 6em;
+    z-index: 0;
+    right: 7em;
+}
+
+.wallet__info .inner_icon:nth-child(2) {
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.11);
+    border-radius: 50px;
+    position: absolute;
+    top: -2em;
+    z-index: 0;
+    right: 23em;
+}
+
+.wallet__info .wallet__info_heads p {
+    color: #eee;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.wallet__info .wallet__info_heads h3 {
+    font-size: 30px;
+}
+
+.tron__dep {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tron__dep button{
+    background-color: #000000ee;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+
 
 
 /*
@@ -15,7 +237,6 @@
 
 .Login {
     display: flex;
-    
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -30,6 +251,11 @@
     background-color: var(--firt-color);
     width: 50%;
     padding: 4em;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 1px #00000073;
+}
+
+.Login .input-field {
     border-radius: 20px;
 }
 
@@ -94,11 +320,12 @@
 
 .Login button {
     padding: 20px 10px;
-    background-color: var(--firt-color);
-    color: white;
+    background-color: #23527c28 ;
+    color: #FFF;
     border-radius: 50px;
     font-weight: bold;
     width: 100%;
+    box-shadow: 0 0 5px 0px #000000b0 inset;
 }
 
 
@@ -136,6 +363,11 @@
 -----------------------------------------
 -----------------------------------------
 */
+
+
+.mobile-navbar {
+    display: none;
+}
 
 
 @media (max-width: 768px) {
@@ -176,5 +408,82 @@
         background-color: var(--firt-color);
         color: white;
     }
+
+    .mobile__signUp{
+        display: block;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        padding: 20px;
+        background-color: #0c0c0cc9;
+    }
+
+    .hero__title h1 {
+        margin-top: 2em;
+    }
+
+    .mobile__signUp .buttons {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+
+    .mobile-navbar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #000000;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        z-index: 1000;
+      }
+      
+      .mobile-navbar.active {
+        background-color: #333;
+        transform: translateY(-10px);
+      }
+      
+      .mobile-navbar ul {
+        list-style: none;
+        margin: 0;
+        width: 100%;
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .mobile-navbar li {
+        margin: 0 1rem;
+      }
+      
+      .mobile-navbar a {
+        text-decoration: none;
+        color: #333;
+      }
+      
+      .mobile-navbar a:hover {
+        color: #666;
+      }
+
+      .mobile-navbar .mobileMenu_icons {
+        color: white;
+      }
+
+      .mobile-navbar .selected  .mobileMenu_icons {
+        color: #2b6ca5 !important;
+      }
+
+
+      header {
+        display: none;
+      }
     
 }

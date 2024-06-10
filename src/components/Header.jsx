@@ -37,12 +37,17 @@ export default function Header() {
                 <div className="navbar-end">
                     <div className="navbar-item">
                         <div className="buttons">
-                            <Link to={'/SignUp'} className="button is-primary">
-                                <strong>Sign up</strong>
-                            </Link>
-                            <Link to={'/Login'} className="button is-light">
-                                Log in
-                            </Link>
+                            <div class="buttonn">
+                                <Link to={'/SignUp'} class="btnn fx01">
+                                    <span>Sign up</span>
+                                </Link>
+                            </div>
+                            <div class="buttonn">
+                                <Link href="#" to={'/Login'} class="btnn fx01">
+                                    <span>Log in</span>
+                                </Link>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const SIgnUp = () => {
     const [showLogin, setShowLogin] = useState(true);
@@ -18,7 +19,9 @@ const SIgnUp = () => {
 
     return (
         <div className="Login">
+            <Link to={'/'} >
             <span className='button'>back</span>
+            </Link>
 
 
             <div className={`login__bod2 ${showLogin ? '' : 'hide'}`}>
@@ -41,7 +44,7 @@ const SIgnUp = () => {
                     </div>
                 </div>
                 <button disabled style={{ backgroundColor: '#00455B', cursor: 'not-allowed' }}>Sign up</button>
-                <button onClick={handleSignUpClick} className='mt-4'>Login</button>
+                <button onClick={handleSignUpClick}  className='mt-4' style={{color: '#000'}}>Login</button>
             </div>
 
             <div className={`login__bod ${showSignUp ? '' : 'hide'}`}>

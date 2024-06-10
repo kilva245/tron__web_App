@@ -36,7 +36,7 @@ const Login = () => {
                     </div>
                 </div>
                 <button className='mb-4' disabled style={{ backgroundColor: '#00455B', cursor: 'not-allowed' }}>Login</button>
-                <button onClick={handleLoginClick}>Sign Up</button>
+                <button onClick={handleLoginClick} style={{backgroundColor: '#338db7'}} >Sign Up</button>
             </div>
 
             <div className={`login__bod2 ${showSignUp ? '' : 'hide'}`}>
@@ -59,7 +59,7 @@ const Login = () => {
                     </div>
                 </div>
                 <button disabled style={{ backgroundColor: '#00455B', cursor: 'not-allowed' }}>Sign up</button>
-                <button onClick={handleSignUpClick} className='mt-4'>Login</button>
+                <button onClick={handleSignUpClick} style={{backgroundColor: '#338db7'}} className='mt-4'>Login</button>
             </div>
         </div>
     );
