@@ -6,9 +6,7 @@ html {
     background-color: #000000fd;
 }
 
-main {
-    padding: 0 15px;
-}
+
 
 
 /*
@@ -359,6 +357,139 @@ header .buttons {
 /*
 -----------------------------------------
 -----------------------------------------
+------------- Profile page --------------
+-----------------------------------------
+-----------------------------------------
+*/
+
+.top_wallet {
+    background-color: var(--firt-color);
+    position: relative;
+    width: 100%;
+    padding-bottom: 7em;
+    left: 0;
+    border-bottom-left-radius: 20em;
+    border-bottom-right-radius: 20em;
+}
+
+.top_wallet h3{
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    padding-top: 1em;
+    margin-bottom: 2em;
+}
+
+.top_wallet .wallet_top_image {
+    position: relative;
+}
+
+.top_wallet img {
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+    position: absolute;
+    border-radius: 10px;
+}
+
+.top_wallet h2 {
+    font-size: 40px;
+    color: white;
+}
+
+.bottom_wallet {
+    margin-top: 6.5em;
+}
+
+.bottom_wallet h2 {
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+    margin-bottom: 1em;
+}
+
+.bottom_wallet .info_pending {
+    background-color: var(--firt-color);
+    border-radius: 40px;
+    padding: 20px;
+    width: 50%;
+    box-shadow: inset 0 0 10px 0px #000
+}
+
+.bottom_wallet .info_pending p{
+    color: #fff;
+    font-size: 16px;
+}
+
+.bottom_wallet .info_pending h3 {
+    color: #fff;
+    font-weight: bold;
+}
+
+.info_pending .tickets h2{
+    margin: 0;
+    color: #fff;
+    font-weight: bold;
+    font-size: 40px;
+
+}
+
+.referalls {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--firt-color);
+    border-radius: 40px;
+    padding: 50px;
+    box-shadow: inset 0 0 10px 0px #000
+}
+
+.referalls h2 {
+    color: #fff;
+    margin: 0;
+}
+
+.referalls p {
+    color: #fff;
+}
+
+.referalls img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    object-fit: cover;
+    position: relative;
+    z-index: 3;
+    border: 2px solid var(--firt-color);
+}
+
+.referalls img:nth-child(2) {
+    position: relative;
+    z-index: 2;
+    left: -1.2em;
+}
+
+.referalls img:nth-child(3) {
+    position: relative;
+    z-index: 1;
+    left: -2.4em;
+}
+
+.referalls .info_image {
+    background-color: #000;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/*
+-----------------------------------------
+-----------------------------------------
 -------------- responsive ---------------
 -----------------------------------------
 -----------------------------------------
@@ -481,6 +612,35 @@ header .buttons {
         color: #2b6ca5 !important;
       }
 
+      .referalls {
+        margin-bottom: 5em;
+      }
+
+      .bottom_wallet .info_pending {
+        margin-left: 5px;
+      }
+
+      .top_wallet img {
+        width: 150px;
+        height: 200px;
+      }
+
+      .bottom_wallet {
+        margin-top: 2em;
+    }
+
+      .top_inf {
+        display: flex;
+        justify-content: right !important;
+        position: relative;
+        right:2em;
+      }
+
+      .top_wallet {
+        border-bottom-left-radius: 6em;
+    border-bottom-right-radius: 6em;
+    padding-bottom: 3em;
+      }
 
       header {
         display: none;

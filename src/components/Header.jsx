@@ -24,13 +24,13 @@ export default function Header() {
 
             <div id="navbarBasicExample" className="navbar-menu">
                 <div className="navbar-start">
-                    <a className="navbar-item">
+                    <Link to={'/'} className="navbar-item">
                         Home
-                    </a>
+                    </Link>
 
-                    <a className="navbar-item">
-                        Documentation
-                    </a>
+                    <Link to={'/profile'} className="navbar-item">
+                        profile
+                    </Link>
 
                 </div>
 

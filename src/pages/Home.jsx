@@ -5,6 +5,7 @@ import HouseIcon from '@mui/icons-material/House';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import HowToVoteIcon from '@mui/icons-material/HowToVote';
 import SettingsIcon from '@mui/icons-material/Settings';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
 export default function Home() {
@@ -25,7 +26,7 @@ export default function Home() {
                 <div className="hero">
                     <span className="hero_it"></span>
                     <span className="hero_it1"></span>
-                    <div className="container">
+                    <div className="container px-3">
                         <div className="columns mt-5">
                             <div className="column hero__title">
                                 <span className="mobile__signUp">
@@ -54,7 +55,7 @@ export default function Home() {
                                 <img src="./assets/images/banner.png" className="hero__image" alt="" />
                             </div>
                         </div>
-                        <div className="columns mb-6">
+                        <div className="columns px-3 mb-6">
                             <div className="column"></div>
                             <div className="column wallet__info px-5">
                                 <span className="inner_icon"></span>
@@ -92,6 +93,11 @@ export default function Home() {
                         <li>
                             <Link to="#" className={selected === 'lotarry' ? 'selected' : ''} onClick={() => handleClick('lottery')}>
                                 <HowToVoteIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/Profile" className={selected === 'Profile' ? 'selected' : ''} onClick={() => handleClick('Profile')}>
+                                <AccountCircleIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
                             </Link>
                         </li>
                         <li>
