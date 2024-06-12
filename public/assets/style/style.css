@@ -42,10 +42,11 @@ header .buttons {
     width: 100%;
     height: fit-content;
     margin: 0 auto;
-    
+
 }
 
-.btnn , .button_ti .btnn{
+.btnn,
+.button_ti .btnn {
     letter-spacing: .1em;
     font-size: 15px;
     line-height: 45px;
@@ -58,7 +59,8 @@ header .buttons {
     border-radius: 60px;
 }
 
-.fx01 , .button_ti .fx01 {
+.fx01,
+.button_ti .fx01 {
     color: white;
     border: 1px solid black;
     box-shadow: inset 0 0 0 1px black;
@@ -66,29 +68,33 @@ header .buttons {
     overflow: hidden;
     position: relative;
     transition: all .3s ease-in-out;
-    
+
     border: 2px solid var(--firt-color);
 }
 
-.fx01:hover , .button_ti .fx01:hover{
+.fx01:hover,
+.button_ti .fx01:hover {
     border: 2px solid gray;
     background-color: var(--firt-color);
     box-sizing: inset 0 0 0 4px #eee;
 }
 
-.fx01 span , .button_ti .fx01 span{
+.fx01 span,
+.button_ti .fx01 span {
     transition: all.2s ease-out;
     z-index: -2;
 }
 
-.fx01:hover span , .button_ti .fx01:hover span {
+.fx01:hover span,
+.button_ti .fx01:hover span {
     letter-spacing: .1em;
     color: #bebebe;
 }
 
 
 /*Creating the light source, this is the magic*/
-.fx01::after , .button_ti .fx01::after{
+.fx01::after,
+.button_ti .fx01::after {
     background: #fff;
     border: 0 solid #000;
     content: '';
@@ -104,7 +110,8 @@ header .buttons {
 }
 
 /*Hover to cause the effect*/
-.fx01:hover::after , .button_ti .fx01:hover::after {
+.fx01:hover::after,
+.button_ti .fx01:hover::after {
     background: #fff;
     border: 20px solid #000;
     opacity: 0;
@@ -124,7 +131,7 @@ header .buttons {
     display: none;
 }
 
-.hero .hero_it{
+.hero .hero_it {
     position: absolute;
     padding: 18em;
     border-right: 3px solid var(--firt-color);
@@ -133,7 +140,7 @@ header .buttons {
     box-shadow: 0 0 10px 0 var(--firt-color);
 }
 
-.hero .hero_it1{
+.hero .hero_it1 {
     position: absolute;
     padding: 20em;
     border-left: 3px solid var(--firt-color);
@@ -153,7 +160,7 @@ header .buttons {
     font-weight: bold;
 }
 
-.hero__title p{
+.hero__title p {
     color: #888;
 }
 
@@ -168,7 +175,7 @@ header .buttons {
     overflow: hidden;
 }
 
-.wallet__info .inner_icon{
+.wallet__info .inner_icon {
     padding: 40px;
     background-color: rgba(255, 255, 255, 0.11);
     border-radius: 50px;
@@ -214,7 +221,7 @@ header .buttons {
     align-items: center;
 }
 
-.tron__dep button{
+.tron__dep button {
     background-color: #000000ee;
     padding: 10px 20px;
     border-radius: 5px;
@@ -245,7 +252,7 @@ header .buttons {
 
 
 
-.login__bod  {
+.login__bod {
     background-color: var(--firt-color);
     width: 50%;
     padding: 4em;
@@ -264,7 +271,8 @@ header .buttons {
     border-radius: 20px;
 }
 
-.login__bod2 h3 , .login__bod h3{
+.login__bod2 h3,
+.login__bod h3 {
     font-weight: bold;
     font-size: 24px;
 }
@@ -318,7 +326,7 @@ header .buttons {
 
 .Login button {
     padding: 20px 10px;
-    background-color: #23527c28 ;
+    background-color: #23527c28;
     color: #FFF;
     border-radius: 50px;
     font-weight: bold;
@@ -372,7 +380,7 @@ header .buttons {
     border-bottom-right-radius: 20em;
 }
 
-.top_wallet h3{
+.top_wallet h3 {
     color: white;
     font-size: 30px;
     font-weight: bold;
@@ -416,7 +424,7 @@ header .buttons {
     box-shadow: inset 0 0 10px 0px #000
 }
 
-.bottom_wallet .info_pending p{
+.bottom_wallet .info_pending p {
     color: #fff;
     font-size: 16px;
 }
@@ -426,7 +434,7 @@ header .buttons {
     font-weight: bold;
 }
 
-.info_pending .tickets h2{
+.info_pending .tickets h2 {
     margin: 0;
     color: #fff;
     font-weight: bold;
@@ -490,6 +498,139 @@ header .buttons {
 /*
 -----------------------------------------
 -----------------------------------------
+-------------- wallet page --------------
+-----------------------------------------
+-----------------------------------------
+*/
+
+
+main .wallet_page_back {
+    padding: 30em;
+    border-right: 3px solid var(--firt-color);
+    position: absolute;
+    border-bottom-right-radius: 30em;
+    border-top-right-radius: 30em;
+    box-shadow: 0 0 10px 2px var(--firt-color);
+    top: -13em;
+    left: -30em;
+    transform: rotate(40deg);
+}
+
+.wallet_page {
+    background-color: var(--firt-color);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: inset 0 0 10px 1px #000;
+}
+
+.wallet_page .top_wal h2 {
+    color: white;
+    font-size: 30px;
+}
+
+.wallet_page .top_wal_icon {
+    font-size: 40px;
+    background-color: #000;
+    border-radius: 50px;
+    padding: 5px;
+    cursor: pointer;
+    color: white;
+}
+
+.wallet_page .wallet__have {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+.wallet_page .wallet__btn button {
+    background-color: transparent;
+    border: 2px solid white;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+}
+
+.wallet_page .wallet__have h2 {
+    font-size: 40px;
+    color: white;
+}
+
+.wallet_page .wallet__have p {
+    color: yellow;
+}
+
+
+.top_dep {
+    display: none;
+}
+
+.dep_m {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.dep_m .columns.h {
+    background-color: var(--firt-color);
+    border-radius: 10px;
+    padding: 1em;
+    box-shadow: inset 0 0 10px 0px #000;
+    margin-top: 1em;
+}
+
+.dep_m input {
+    width: 20em;
+}
+
+.dep_m button{
+    border: 1px solid white;
+    padding: 10px 30px;
+    border-radius: 40px;
+}
+
+.withdraw_p {
+    display: flex;
+    height: 90vh;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.withdraw_p .inner {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--firt-color);
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.withdraw_p .inner label {
+    color: white;
+    font-size: 20px;
+}
+
+.withdraw_p .inner .input {
+    margin-top: .5em;
+} 
+
+.withdraw_p .inner p {
+    font-size: 14px;
+}
+
+.withdraw_p .inner button {
+    border: 1px solid white;
+    padding: 10px 30px;
+    border-radius: 20px;
+}
+
+/*
+-----------------------------------------
+-----------------------------------------
 -------------- responsive ---------------
 -----------------------------------------
 -----------------------------------------
@@ -502,7 +643,7 @@ header .buttons {
 
 
 @media (max-width: 768px) {
-    .login__bod  {
+    .login__bod {
         transition: all 0.5s ease-in-out;
         width: 100%;
         height: fit-content;
@@ -510,22 +651,22 @@ header .buttons {
         bottom: 0;
     }
 
-    .login__bod2{
+    .login__bod2 {
         transition: all 0.5s ease-in-out;
         width: 100%;
         height: fit-content;
         position: fixed;
         bottom: 0;
     }
-    
+
     .login__bod.hide {
         transform: translateY(100vh);
     }
-    
+
     .login__bod2 {
         transition: all 0.5s ease-in-out;
     }
-    
+
     .login__bod2.hide {
         transform: translateY(100%);
         display: none;
@@ -540,7 +681,7 @@ header .buttons {
         color: white;
     }
 
-    .mobile__signUp{
+    .mobile__signUp {
         display: block;
         width: 100%;
         position: fixed;
@@ -574,14 +715,14 @@ header .buttons {
         align-items: center;
         transition: background-color 0.3s ease, transform 0.3s ease;
         z-index: 1000;
-      }
-      
-      .mobile-navbar.active {
+    }
+
+    .mobile-navbar.active {
         background-color: #333;
         transform: translateY(-10px);
-      }
-      
-      .mobile-navbar ul {
+    }
+
+    .mobile-navbar ul {
         list-style: none;
         margin: 0;
         width: 100%;
@@ -589,61 +730,85 @@ header .buttons {
         display: flex;
         justify-content: space-between;
         align-items: center;
-      }
-      
-      .mobile-navbar li {
+    }
+
+    .mobile-navbar li {
         margin: 0 1rem;
-      }
-      
-      .mobile-navbar a {
+    }
+
+    .mobile-navbar a {
         text-decoration: none;
         color: #333;
-      }
-      
-      .mobile-navbar a:hover {
+    }
+
+    .mobile-navbar a:hover {
         color: #666;
-      }
+    }
 
-      .mobile-navbar .mobileMenu_icons {
+    .mobile-navbar .mobileMenu_icons {
         color: white;
-      }
+    }
 
-      .mobile-navbar .selected  .mobileMenu_icons {
+    .mobile-navbar .selected .mobileMenu_icons {
         color: #2b6ca5 !important;
-      }
+    }
 
-      .referalls {
+    .referalls {
         margin-bottom: 5em;
-      }
+    }
 
-      .bottom_wallet .info_pending {
+    .bottom_wallet .info_pending {
         margin-left: 5px;
-      }
+    }
 
-      .top_wallet img {
+    .top_wallet img {
         width: 150px;
         height: 200px;
-      }
+    }
 
-      .bottom_wallet {
+    .bottom_wallet {
         margin-top: 2em;
     }
 
-      .top_inf {
+    .top_inf {
         display: flex;
         justify-content: right !important;
         position: relative;
-        right:2em;
-      }
+        right: 2em;
+    }
 
-      .top_wallet {
+    .top_wallet {
         border-bottom-left-radius: 6em;
-    border-bottom-right-radius: 6em;
-    padding-bottom: 3em;
-      }
+        border-bottom-right-radius: 6em;
+        padding-bottom: 3em;
+    }
 
-      header {
+    .top_dep {
+        display: block;
+        border-bottom: 1px solid white;
+        padding: 20px;
+    }
+
+    .top_dep h2 {
+        font-size: 20px;
+        color: white;
+    }
+
+    .dep_m {
+        height: 90vh;
+    }
+
+    .withdraw_p {
+        display: flex;
+        height: 100%;
+        margin-top: 10em;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    header {
         display: none;
-      }
-    
+    }
+
 }

@@ -32,6 +32,10 @@ export default function Header() {
                         profile
                     </Link>
 
+                    <Link to={'/wallet'} className="navbar-item">
+                        wallet
+                    </Link>
+
                 </div>
 
                 <div className="navbar-end">

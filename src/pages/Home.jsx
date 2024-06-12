@@ -6,6 +6,7 @@ import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import HowToVoteIcon from '@mui/icons-material/HowToVote';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
 
 export default function Home() {
@@ -98,6 +99,11 @@ export default function Home() {
                         <li>
                             <Link to="/Profile" className={selected === 'Profile' ? 'selected' : ''} onClick={() => handleClick('Profile')}>
                                 <AccountCircleIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/wallet" className={selected === 'Profile' ? 'selected' : ''} onClick={() => handleClick('Wallet')}>
+                                <AccountBalanceWalletIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
                             </Link>
                         </li>
                         <li>
