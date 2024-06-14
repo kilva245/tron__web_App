@@ -44,12 +44,12 @@ export default function Profile() {
                         </div>
                     </div>
 
-                    <div className="columns container bottom_wallet px-3">
-                        <div className="column ">
+                    <div className="columns container is-flex-mobile bottom_wallet px-3">
+                        <div className="column is-6-mobile">
                             <h2>Activities</h2>
-                            <div className="is-flex-mobile ">
+                            <div>
                                 <div className="info_pending ">
-                                    <div className="columns has-text-centered">
+                                    <div className="columns is-flex-mobile has-text-centered">
                                         <div className="column">
                                             <h3 className="mb-3">Loan</h3>
                                             <p>pending</p>
@@ -70,7 +70,7 @@ export default function Profile() {
                             </div>
 
                         </div>
-                        <div className="column">
+                        <div className="column  is-6-mobile">
                             <h2>Reports Of Ref</h2>
                             <div className="referalls">
                                 <h2>12</h2>
@@ -110,7 +110,7 @@ export default function Profile() {
                             </Link>
                         </li>
                         <li>
-                            <Link to="#" className={selected === 'lotarry' ? 'selected' : ''} onClick={() => handleClick('lottery')}>
+                            <Link to="/latary" className={selected === 'lotarry' ? 'selected' : ''} onClick={() => handleClick('lottery')}>
                                 <HowToVoteIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
                             </Link>
                         </li>

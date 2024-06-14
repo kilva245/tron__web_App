@@ -36,6 +36,10 @@ export default function Header() {
                         wallet
                     </Link>
 
+                    <Link to={'/latary'} className="navbar-item">
+                        Lottary
+                    </Link>
+
                 </div>
 
                 <div className="navbar-end">

@@ -11,6 +11,8 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
 export default function Wallet() {
     const [selected, setSelected] = useState(null);
+    const [showInfo, setShowInfo] = useState(null);
+
 
     const handleClick = (item) => {
         setSelected(item);
@@ -25,7 +27,7 @@ export default function Wallet() {
             <main >
                 <span className="wallet_page_back"></span>
                 <div className="wallet_page mt-6 container">
-                    <div className="columns top_wal">
+                    <div className="columns is-flex-mobile top_wal">
                         <div className="column has-text-centered">
                             <h2>Main Wallet</h2>
                         </div>
@@ -42,7 +44,7 @@ export default function Wallet() {
                         </div>
                     </div>
 
-                    <div className="columns wallet__btn mt-4">
+                    <div className="columns is-flex-mobile wallet__btn mt-4">
                         <div className="column has-text-centered">
                             <Link to={"/wallet/withdraw"}>
                                 <button>
@@ -62,6 +64,109 @@ export default function Wallet() {
 
                         </div>
                     </div>
+                </div>
+
+                <div className="columns container">
+                    <div className="column in__info">
+                        <button
+                            onClick={() => setShowInfo('deposits')}
+                            className="button is-primary"
+                        >
+                            Deposits
+                        </button>
+
+                        <button
+                            onClick={() => setShowInfo('withdraw')}
+                            className="button is-primary"
+                        >
+                            Withdraw
+                        </button>
+                    </div>
+                </div>
+
+                <div className="columns container">
+                    {showInfo === 'deposits' && (
+                        <div className="card" style={{width: '100%'}}>
+                            <div className="card-header">
+                                <p className="card-header-title">Deposits Information</p>
+                            </div>
+                            <div className="card-content">
+                                <table className="table" style={{width: '100%'}}>
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>2022-01-01</td>
+                                            <td>
+                                                <span className="tag is-success">Done</span>
+                                            </td>
+                                            <td>$100</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2022-01-15</td>
+                                            <td>
+                                                <span className="tag is-warning">Pending</span>
+                                            </td>
+                                            <td>$200</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2022-02-01</td>
+                                            <td>
+                                                <span className="tag is-success">Done</span>
+                                            </td>
+                                            <td>$300</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    )}
+                    {showInfo === 'withdraw' && (
+                        <div className="card" style={{width: '100%'}}>
+                            <div className="card-header">
+                                <p className="card-header-title">Withdraw Information</p>
+                            </div>
+                            <div className="card-content">
+                                <table className="table" style={{width: '100%'}}>
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>2022-01-05</td>
+                                            <td>
+                                                <span className="tag is-success">Done</span>
+                                            </td>
+                                            <td>$50</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2022-01-20</td>
+                                            <td>
+                                                <span className="tag is-warning">Pending</span>
+                                            </td>
+                                            <td>$100</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2022-02-10</td>
+                                            <td>
+                                                <span className="tag is-success">Done</span>
+                                            </td>
+                                            <td>$200</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 {/* <div className="wallet_all_info container">
@@ -95,7 +200,7 @@ export default function Wallet() {
                             </Link>
                         </li>
                         <li>
-                            <Link to="#" className={selected === 'lotarry' ? 'selected' : ''} onClick={() => handleClick('lottery')}>
+                            <Link to="/latary" className={selected === 'lotarry' ? 'selected' : ''} onClick={() => handleClick('lottery')}>
                                 <HowToVoteIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
                             </Link>
                         </li>

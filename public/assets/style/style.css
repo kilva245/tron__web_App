@@ -227,7 +227,51 @@ header .buttons {
     border-radius: 5px;
 }
 
+.users {
+    background-color: #ffffff0c;
+    padding: 20px;
+    border: 1px solid var(--firt-color);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 7em !important; 
+  }
+  
+  .users ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
 
+  .users li {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .user-item {
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+    transition: background-color 0.3s;
+  }
+  
+  .user-item:hover {
+    background-color: var(--firt-color);
+    border-radius: 10px;
+  }
+  
+  .user-item:last-child {
+    border-bottom: none;
+  }
+  
+  .user-name {
+    font-weight: bold;
+    color: #ffffff;
+    margin-right: 10px;
+  }
+  
+  .user-family {
+    color: #666;
+  }
 
 
 /*
@@ -417,26 +461,25 @@ header .buttons {
 }
 
 .bottom_wallet .info_pending {
-    background-color: var(--firt-color);
+    background-color: rgba(255, 255, 255, 0.918);
     border-radius: 40px;
     padding: 20px;
     width: 50%;
-    box-shadow: inset 0 0 10px 0px #000
 }
 
 .bottom_wallet .info_pending p {
-    color: #fff;
+    color: #000;
     font-size: 16px;
 }
 
 .bottom_wallet .info_pending h3 {
-    color: #fff;
+    color: #000;
     font-weight: bold;
 }
 
 .info_pending .tickets h2 {
     margin: 0;
-    color: #fff;
+    color: #000;
     font-weight: bold;
     font-size: 40px;
 
@@ -447,19 +490,18 @@ header .buttons {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: var(--firt-color);
+    background-color: rgba(255, 255, 255, 0.918);
     border-radius: 40px;
     padding: 50px;
-    box-shadow: inset 0 0 10px 0px #000
 }
 
 .referalls h2 {
-    color: #fff;
+    color: #000;
     margin: 0;
 }
 
 .referalls p {
-    color: #fff;
+    color: #000;
 }
 
 .referalls img {
@@ -519,6 +561,8 @@ main .wallet_page_back {
 .wallet_page {
     background-color: var(--firt-color);
     border-radius: 20px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
     padding: 20px;
     box-shadow: inset 0 0 10px 1px #000;
 }
@@ -560,6 +604,24 @@ main .wallet_page_back {
 
 .wallet_page .wallet__have p {
     color: yellow;
+}
+
+.in__info {
+    display: flex;
+    justify-content: center;
+    border: 1px solid white;
+    padding: 0;
+}
+
+.in__info button {
+    background-color: transparent;
+    width: 50%;
+    color: white;
+    padding: 20px;
+}
+
+.in__info button:hover {
+    background-color: rgba(255, 255, 255, 0.199);
 }
 
 
@@ -626,6 +688,136 @@ main .wallet_page_back {
     border: 1px solid white;
     padding: 10px 30px;
     border-radius: 20px;
+}
+
+/*
+-----------------------------------------
+-----------------------------------------
+---------------- Lottary ----------------
+-----------------------------------------
+-----------------------------------------
+*/
+
+.lottary_info {
+    background-color: #0072927e;
+    border-radius: 20px;
+    mix-blend-mode: normal;
+    box-shadow: inset 0 0 5px 1px #000000ab;
+    border: 1px solid #000;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    margin-top: 4em;
+}
+
+.lottary_info .timer {
+    border: 1px solid white;
+    background-color: transparent;
+    color: white;
+    border-radius: 20em;
+    padding: 5px 20px; 
+    font-size: 14px;
+}
+
+
+.lottary_info .inner_icon {
+    padding: 40px;
+    background-color: rgba(255, 255, 255, 0.11);
+    border-radius: 50px;
+    position: absolute;
+    top: -2em;
+    z-index: 0;
+    right: -1em;
+}
+
+.lottary_info .inner_icon:nth-child(1) {
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.11);
+    border-radius: 50px;
+    position: absolute;
+    top: 3em;
+    z-index: 0;
+    right: 19em;
+}
+
+.lottary_info .inner_icon:nth-child(2) {
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.11);
+    border-radius: 50px;
+    position: absolute;
+    top: -2em;
+    z-index: 0;
+    right: 30em;
+}
+
+.lottary_info .lottary__info_heads p {
+    color: #eee;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.lottary_info .lottary__info_heads h3 {
+    font-size: 40px;
+    color: white;
+}
+
+.join_lot {
+    background-color: rgba(255, 255, 255, 0.979);
+    display: flex;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 1px #ffffff21;
+    justify-content: space-between;
+    border: 2px solid #00000098;
+    box-shadow: inset 0 0 10px 1px #00000083;
+    padding: 20px;
+}
+
+.lotery_join_page {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(../images/backim.jpg);
+}
+
+.join_lot h2 {
+    color: #1e7ba0;
+}
+
+.join_lot p {
+    color: #999;
+}
+
+.join_lot input {
+    border-radius:  20em;
+    width: 90%;
+    border: 1px solid #000;
+    color: #000;
+    padding: 14px;
+    margin-top: 2em;
+}
+
+.join_lot img {
+    width: 700px;
+    height: 700px;
+}
+
+.join_lot .column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+
+
+.join_lot button {
+    width: 90%;
+    background-color: #1e7ba0;
+    padding: 10px;
+    color: #000;
+    border-radius: 20em;
+    margin-top: 3em;
+    box-shadow: inset 0 0 10px 1px #00000083;
 }
 
 /*
@@ -755,10 +947,20 @@ main .wallet_page_back {
 
     .referalls {
         margin-bottom: 5em;
+        padding: 57px 10px;
     }
 
     .bottom_wallet .info_pending {
-        margin-left: 5px;
+        width: 100%;
+    }
+
+    .bottom_wallet h2 {
+        font-size: 20px;
+    }
+
+    .column.is-6-mobile {
+        width: auto;
+        margin-right: -1em;
     }
 
     .top_wallet img {
@@ -806,6 +1008,33 @@ main .wallet_page_back {
         justify-content: center;
         flex-direction: column;
     }
+    .wallet_page .wallet__have{
+        align-items: start;
+    }
+
+    .lottary_info {
+        margin-top: 0;
+    }
+
+    .lottary_info .lottary__info_heads h3 {
+        font-size: 30px;
+    }
+
+    .mobile_none {
+        display: none !important;
+    }
+
+    .join_lot {
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .join_lot input , .join_lot button {
+        width: 100%;
+    }
+    
 
     header {
         display: none;

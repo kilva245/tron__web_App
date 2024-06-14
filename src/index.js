@@ -10,6 +10,8 @@ import Profile from './pages/Profile';
 import Wallet from './pages/Wallet';
 import Deposit from './components/Deposit';
 import Withdraw from './components/Withdraw';
+import Latary from './pages/Latary';
+import JoinLottary from './components/JoinLottary';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -22,6 +24,8 @@ root.render(
       <Route path='/wallet' element={<Wallet />} />
       <Route path='/wallet/deposit' element={<Deposit />} />
       <Route path='/wallet/withdraw' element={<Withdraw />} />
+      <Route path='/latary' element={<Latary />} />
+      <Route path='/latary/join' element={<JoinLottary />} />
     </Routes>
   </BrowserRouter>
 );

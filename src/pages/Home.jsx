@@ -16,6 +16,13 @@ export default function Home() {
         setSelected(item);
     };
 
+    const users = [
+        { id: 1, name: 'John', family: 'Doe', email: 'john@example.com', balance: 20 },
+        { id: 2, name: 'Jane', family: 'Smith', email: 'jane@example.com', balance: 20 },
+        { id: 3, name: 'Bob', family: 'Johnson', email: 'bob@example.com', balance: 20 },
+        //...
+    ];
+
     return (
         <>
             <header>
@@ -56,7 +63,7 @@ export default function Home() {
                                 <img src="./assets/images/banner.png" className="hero__image" alt="" />
                             </div>
                         </div>
-                        <div className="columns px-3 mb-6">
+                        <div className="columns px-3 mb-5">
                             <div className="column"></div>
                             <div className="column wallet__info px-5">
                                 <span className="inner_icon"></span>
@@ -77,6 +84,31 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
+                <div className="px-3">
+                    <div className="columns container users px-0">
+                        <ul>
+                            <li className="user-item">
+                                <span>name</span>
+                                <span className="mr-6">family</span>
+                                <span className="mr-5">Email</span>
+                                <span className="ml-2">Balance</span>
+                            </li>
+                            {users.map((user) => (
+                                <>
+
+                                    <li key={user.id} className="user-item">
+
+                                        <span className="user-name">{user.name}</span>
+                                        <span className="user-family">{user.family}</span>
+                                        <span className="user-email">{user.email}</span>
+                                        <span className="user-balance">${user.balance}</span>
+                                    </li>
+                                </>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+
 
 
                 <nav className="mobile-navbar">
@@ -92,7 +124,7 @@ export default function Home() {
                             </Link>
                         </li>
                         <li>
-                            <Link to="#" className={selected === 'lotarry' ? 'selected' : ''} onClick={() => handleClick('lottery')}>
+                            <Link to="/latary" className={selected === 'lotarry' ? 'selected' : ''} onClick={() => handleClick('lottery')}>
                                 <HowToVoteIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
                             </Link>
                         </li>
