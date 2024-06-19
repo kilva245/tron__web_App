@@ -40,6 +40,15 @@ export default function Header() {
                         Lottary
                     </Link>
 
+                    <Link to={'/status'} className="navbar-item">
+                        Status
+                    </Link>
+
+                    <Link to={'/ref'} className="navbar-item">
+                        referral
+                    </Link>
+
+
                 </div>
 
                 <div className="navbar-end">

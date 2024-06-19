@@ -195,7 +195,7 @@ export default function Wallet() {
                             </Link>
                         </li>
                         <li>
-                            <Link to="#" className={selected === 'eferrals' ? 'selected' : ''} onClick={() => handleClick('referrals')}>
+                            <Link to="/ref" className={selected === 'eferrals' ? 'selected' : ''} onClick={() => handleClick('referrals')}>
                                 <SupervisorAccountIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
                             </Link>
                         </li>

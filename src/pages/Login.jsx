@@ -80,10 +80,11 @@ const Login = () => {
                             href="#"
                             onClick={handleOpenModal}
                             style={{
-                                position: "elative",
+                                position: "relative",
                                 top: 10,
                                 color: "#000",
                                 fontWeight: "bold",
+                                fontSize: 20
                             }}
                         >
                             Forgot Password

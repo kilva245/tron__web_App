@@ -12,6 +12,8 @@ import Deposit from './components/Deposit';
 import Withdraw from './components/Withdraw';
 import Latary from './pages/Latary';
 import JoinLottary from './components/JoinLottary';
+import StatusPage from './pages/StatusPage';
+import ReferralPage from './pages/ReferralPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -26,6 +28,8 @@ root.render(
       <Route path='/wallet/withdraw' element={<Withdraw />} />
       <Route path='/latary' element={<Latary />} />
       <Route path='/latary/join' element={<JoinLottary />} />
+      <Route path='/status' element={<StatusPage />} />
+      <Route path='/ref' element={<ReferralPage />} />
     </Routes>
   </BrowserRouter>
 );
