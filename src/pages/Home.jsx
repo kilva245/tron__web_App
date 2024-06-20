@@ -7,6 +7,10 @@ import HowToVoteIcon from '@mui/icons-material/HowToVote';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import TelegramIcon from '@mui/icons-material/Telegram';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 
 export default function Home() {
@@ -23,6 +27,35 @@ export default function Home() {
         //...
     ];
 
+    const [burger_class, setBurgerClass] = useState("burger-bar unclicked")
+    const [menu_class, setMenuClass] = useState("menu hidden")
+    const [isMenuClicked, setIsMenuClicked] = useState(false)
+
+    const updateMenu = () => {
+        if (!isMenuClicked) {
+            setBurgerClass("burger-bar clicked")
+            setMenuClass("menu visible")
+        }
+        else {
+            setBurgerClass("burger-bar unclicked")
+            setMenuClass("menu hidden")
+        }
+
+        setIsMenuClicked(!isMenuClicked)
+    }
+
+    const close1 = () => {
+        if (!isMenuClicked) {
+            setBurgerClass("burger-bar clicked")
+            setMenuClass("menu visible")
+        }
+        else {
+            setBurgerClass("burger-bar unclicked")
+            setMenuClass("menu hidden")
+        }
+        setIsMenuClicked(false)
+    }
+
     return (
         <>
             <header>
@@ -38,7 +71,71 @@ export default function Home() {
                         <div className="columns mt-5">
                             <div className="column hero__title">
                                 <span className="mobile__signUp">
+
                                     <div className="buttons">
+                                        <div className="mobile__nav_left">
+                                            <nav className=" is-flex is-justify-content-space-between">
+                                                <div className="burger-menu" onClick={updateMenu}>
+                                                    <div className={burger_class}></div>
+                                                    <div className={burger_class}></div>
+                                                    <div className={burger_class}></div>
+                                                </div>
+
+                                            </nav>
+
+                                            <div className={menu_class}>
+                                                <div className="mnn">
+                                                    <div className="mnu" onClick={close1}>
+                                                    </div>
+
+                                                    <div className="menu__mob">
+                                                        <div className="columns">
+                                                            <div className="column is-12">
+                                                                <div className="user__info is-flex">
+                                                                    <img src="./assets/images/login-i.jpg" width={100} alt="user" />
+                                                                    <p>Hello,<br /> <strong>Yash Vardhan</strong></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <hr />
+                                                        <ul className="is-flex is-flex-direction-column columns">
+                                                            <li className="is-flex column">
+                                                                <AccountBalanceWalletIcon style={{ color: '#fff', fontSize: 30, marginRight: 10 }} />
+                                                                <h2>Wallet</h2>
+                                                            </li>
+                                                            <Link to={'/referral-code'}>
+                                                                <li className="is-flex column">
+                                                                    <SupervisorAccountIcon style={{ color: '#fff', fontSize: 30, marginRight: 10 }} />
+                                                                    <h2>Invite Friends</h2>
+                                                                </li>
+                                                            </Link>
+                                                            <li className="is-flex column">
+                                                                <TelegramIcon style={{ color: '#fff', fontSize: 30, marginRight: 10 }} />
+                                                                <h2>Help Us</h2>
+                                                            </li>
+                                                            <li className="is-flex column">
+                                                                <TelegramIcon style={{ color: '#fff', fontSize: 30, marginRight: 10 }} />
+                                                                <h2>Telegram channel</h2>
+                                                            </li>
+                                                            <li className="is-flex column">
+                                                                <YouTubeIcon style={{ color: '#fff', fontSize: 30, marginRight: 10 }} />
+                                                                <h2>Youtube channel</h2>
+                                                            </li>
+                                                            <li className="is-flex column">
+                                                                <PriorityHighIcon style={{ color: '#fff', fontSize: 30, marginRight: 10 }} />
+                                                                <h2>Privacy policy</h2>
+                                                            </li>
+                                                            <li className="is-flex column">
+                                                                <LogoutIcon style={{ color: '#fff', fontSize: 30, marginRight: 10 }} />
+                                                                <h2>Logout</h2>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
                                         <div class="buttonn">
                                             <Link to={'/SignUp'} class="btnn fx01">
                                                 <span>Sign up</span>
@@ -49,6 +146,7 @@ export default function Home() {
                                                 <span>Log in</span>
                                             </Link>
                                         </div>
+
                                     </div>
                                 </span>
                                 <h1>PLAY TO WIN</h1>
@@ -70,14 +168,17 @@ export default function Home() {
                                 <span className="inner_icon"></span>
                                 <span className="inner_icon"></span>
                                 <div className="columns">
-                                    <div className="column wallet__info_heads ">
+                                    <div className="column is-6 wallet__info_heads ">
+                                        <span>
                                         <p>Balance</p>
                                         <h3>0$</h3>
                                         <h4>0.0000000 TRX</h4>
-                                    </div>
-                                    <div className="column tron__dep">
+                                        </span>
+                                        <div className=" tron__dep">
                                         <button>deposit</button>
                                     </div>
+                                    </div>
+                                    
                                 </div>
                             </div>
                             <div className="column"></div>
@@ -144,7 +245,10 @@ export default function Home() {
                             </Link>
                         </li>
                     </ul>
+
                 </nav>
+
+
             </main>
 
             <footer>

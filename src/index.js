@@ -14,6 +14,7 @@ import Latary from './pages/Latary';
 import JoinLottary from './components/JoinLottary';
 import StatusPage from './pages/StatusPage';
 import ReferralPage from './pages/ReferralPage';
+import ReferralCode from './pages/ReferralCode';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -30,6 +31,7 @@ root.render(
       <Route path='/latary/join' element={<JoinLottary />} />
       <Route path='/status' element={<StatusPage />} />
       <Route path='/ref' element={<ReferralPage />} />
+      <Route path='/referral-code' element={<ReferralCode />} />
     </Routes>
   </BrowserRouter>
 );
