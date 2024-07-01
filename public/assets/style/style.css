@@ -37,14 +37,14 @@ html {
     border-radius: .5em;
     position: relative;
     margin-top: 5px;
-}   
+}
 
 
 .mnu {
     width: 500px;
     max-width: 100%;
     height: 100%;
-    background-color: #0e0e0e86 ;
+    background-color: #0e0e0e86;
     position: absolute;
     top: 0;
     z-index: 1;
@@ -66,20 +66,17 @@ html {
     width: 100%;
     left: 0;
     top: 0;
-    height: 100vh;
 }
 
 .menu__mob {
     height: 100vh;
-    width: 80%;
-    background-color: #007292e3;
+    width: 70%;
+    background-color: var(--firt-color);
     position: relative;
     z-index: 999999;
     padding-left: 30px;
     padding-top: 5em;
-    overflow: -moz-scrollbars-vertical;
-    overflow-x: hidden;
-    overflow-y: auto;
+    border-right: #000 1px solid;
 }
 
 .menu__mob ul li {
@@ -88,16 +85,17 @@ html {
     align-items: center;
     cursor: pointer;
 }
-.menu__mob ul li h2{
+
+.menu__mob ul li h2 {
     position: relative;
     top: 2px;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
     color: #000;
 }
 
 .menu__mob ul li img {
-    width: 30px ;
+    width: 30px;
     margin-right: 20px;
 }
 
@@ -110,36 +108,36 @@ html {
     display: inherit;
 }
 
-.burger-bar:nth-child(1){
+.burger-bar:nth-child(1) {
     width: 0%;
     transition: all ease-in-out .5s;
 }
 
-.burger-bar:nth-child(2){
+.burger-bar:nth-child(2) {
     width: 70%;
 }
 
-.burger-bar:nth-child(3){
+.burger-bar:nth-child(3) {
     width: 40%;
 }
 
-.burger-bar.clicked:nth-child(1){
+.burger-bar.clicked:nth-child(1) {
     width: 100%;
     transition: all ease-in-out .3s;
 }
 
-.burger-bar.clicked:nth-child(2){
+.burger-bar.clicked:nth-child(2) {
     width: 100%;
     transition: all ease-in-out .1s;
 }
 
-.burger-bar.clicked:nth-child(3){
+.burger-bar.clicked:nth-child(3) {
     width: 100%;
     transition: all ease-in-out .1s;
 }
 
 
-.burger-bar.unclicked{
+.burger-bar.unclicked {
     transform: rotate(0) translate(0);
     transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) .5s;
 }
@@ -157,7 +155,7 @@ header .buttons {
     flex-direction: row;
     justify-content: center;
     text-align: center;
-    width: 100%;
+    width: 40%;
     height: 100%;
     margin: 0 auto;
 }
@@ -176,12 +174,12 @@ header .buttons {
 .button_ti .btnn {
     letter-spacing: .1em;
     font-size: 15px;
-    line-height: 45px;
+    line-height: 40px;
     max-width: 150px;
     position: relative;
     text-decoration: none;
     text-transform: uppercase;
-    width: 100%;
+    width: 80%;
     height: fit-content;
     border-radius: 60px;
 }
@@ -289,10 +287,13 @@ header .buttons {
 
 .hero__title p {
     color: #888;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .wallet__info {
-    background-color: #A53DDB;
+    background-color: #F070E8;
     border-radius: 20px;
     mix-blend-mode: normal;
     box-shadow: inset 0 0 5px 1px #000000ab;
@@ -332,14 +333,24 @@ header .buttons {
     right: 23em;
 }
 
+.wallet__info_heads {
+    display: flex;
+    justify-content: space-between;
+}
+
 .wallet__info .wallet__info_heads p {
-    color: #eee;
+    color: #1B2D32;
     font-size: 18px;
     font-weight: bold;
 }
 
 .wallet__info .wallet__info_heads h3 {
     font-size: 30px;
+    color: #fff;
+}
+
+.wallet__info .wallet__info_heads h4 {
+    color: #fff;
 }
 
 .tron__dep {
@@ -349,57 +360,59 @@ header .buttons {
 }
 
 .tron__dep button {
-    background-color: #000000ee;
+    background-color: var(--firt-color);
     padding: 10px 20px;
     border-radius: 5px;
+    color: #000;
+    font-weight: bold;
 }
 
 .users {
-    background-color: #8D7ADC;
+    background-color: var(--firt-color);
     padding: 20px;
     border: 1px solid var(--firt-color);
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 7em !important; 
-  }
-  
-  .users ul {
+    margin-bottom: 7em !important;
+}
+
+.users ul {
     list-style: none;
     padding: 0;
     margin: 0;
     width: 100%;
-  }
+}
 
-  .users li {
+.users li {
     display: flex;
     justify-content: space-between;
-  }
-  
-  .user-item {
+}
+
+.user-item {
     padding: 15px;
     border-bottom: 1px solid #000;
     transition: background-color 0.3s;
     color: #000;
-  }
-  
-  .user-item:hover {
-    background-color: rgb(42,160,193);
+}
+
+.user-item:hover {
+    background-color: rgb(42, 160, 193);
     border-radius: 10px;
-  }
-  
-  .user-item:last-child {
+}
+
+.user-item:last-child {
     border-bottom: none;
-  }
-  
-  .user-name {
+}
+
+.user-balance {
     font-weight: bold;
     color: #000;
     margin-right: 10px;
-  }
-  
-  .user-family {
-    color: #fff;
-  }
+}
+
+.user-family {
+    color: #1B2D32;
+}
 
 
 /*
@@ -425,22 +438,24 @@ header .buttons {
 
 
 .login__bod {
-    background-color: var(--firt-color);
+    background-color: #8D7ADC;
     width: 50%;
-    padding: 4em;
-    border-radius: 20px;
+    padding: 2em;
+    border-radius: 0px;
     box-shadow: 0 0 10px 1px #00000073;
 }
 
 .Login .input-field {
-    border-radius: 20px;
+    background-color: transparent;
+
 }
 
 .login__bod2 {
     background-color: white;
     width: 50%;
-    padding: 4em;
-    border-radius: 20px;
+    padding: 2em;
+    border-radius: 0px;
+    padding-top: 1em;
 }
 
 .login__bod2 h3,
@@ -466,6 +481,7 @@ header .buttons {
     font-size: 14px;
     font-weight: bold;
     display: block;
+    color: #000;
 }
 
 .input-field {
@@ -547,7 +563,7 @@ header .buttons {
 */
 
 .top_wallet {
-    background-color: var(--firt-color);
+    background-color: #F070E8;
     position: relative;
     width: 100%;
     padding-bottom: 7em;
@@ -557,11 +573,13 @@ header .buttons {
 }
 
 .top_wallet h3 {
-    color: white;
+    color: black;
     font-size: 30px;
     font-weight: bold;
     padding-top: 1em;
     margin-bottom: 2em;
+    position: relative;
+    top: .7em;
 }
 
 .top_wallet .wallet_top_image {
@@ -574,10 +592,11 @@ header .buttons {
     object-fit: cover;
     position: absolute;
     border-radius: 10px;
+    border: 1px solid var(--firt-color);
 }
 
 .top_wallet h2 {
-    font-size: 40px;
+    font-size: 30px;
     color: white;
 }
 
@@ -593,7 +612,7 @@ header .buttons {
 }
 
 .bottom_wallet .info_pending {
-    background-color: rgba(255, 255, 255, 0.918);
+    background-color: var(--firt-color);
     border-radius: 40px;
     padding: 20px;
     width: 50%;
@@ -611,7 +630,7 @@ header .buttons {
 
 .info_pending .tickets h2 {
     margin: 0;
-    color: #000;
+    color: red;
     font-weight: bold;
     font-size: 40px;
 
@@ -622,7 +641,7 @@ header .buttons {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.918);
+    background-color: var(--firt-color);
     border-radius: 40px;
     padding: 50px;
 }
@@ -691,7 +710,7 @@ main .wallet_page_back {
 }
 
 .wallet_page {
-    background-color: var(--firt-color);
+    background-color: #F070E8;
     border-radius: 20px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
@@ -707,8 +726,8 @@ main .wallet_page_back {
 .wallet_page .top_wal_icon {
     font-size: 40px;
     background-color: #000;
-    border-radius: 50px;
-    padding: 5px;
+    border-radius: 5px;
+    padding: 10px;
     cursor: pointer;
     color: white;
 }
@@ -735,7 +754,7 @@ main .wallet_page_back {
 }
 
 .wallet_page .wallet__have p {
-    color: yellow;
+    color: var(--firt-color);
 }
 
 .in__info {
@@ -770,21 +789,30 @@ main .wallet_page_back {
 }
 
 .dep_m .columns.h {
-    background-color: var(--firt-color);
+    background-color: #F070E8;
     border-radius: 10px;
-    padding: 1em;
+    padding: 1.5em;
     box-shadow: inset 0 0 10px 0px #000;
     margin-top: 1em;
+    border: 1px solid var(--firt-color);
 }
 
 .dep_m input {
     width: 20em;
 }
 
-.dep_m button{
-    border: 1px solid white;
+.dep_m button {
+    border: 1px solid #fff;
     padding: 10px 30px;
     border-radius: 40px;
+    color: #000;
+}
+
+.dep_m .btn2 {
+    background-color: var(--firt-color);
+    color: #000;
+    font-weight: bold;
+    border: 2px solid #A53DDB !important;
 }
 
 .withdraw_p {
@@ -798,9 +826,11 @@ main .wallet_page_back {
 .withdraw_p .inner {
     display: flex;
     flex-direction: column;
-    background-color: var(--firt-color);
+    background-color: #F070E8;
     padding: 30px;
     border-radius: 10px;
+    box-shadow: inset 0 0 10px 0px #000;
+    border: 1px solid var(--firt-color);
 }
 
 .withdraw_p .inner label {
@@ -810,16 +840,20 @@ main .wallet_page_back {
 
 .withdraw_p .inner .input {
     margin-top: .5em;
-} 
+}
 
 .withdraw_p .inner p {
     font-size: 14px;
+    color: #000;
+    font-weight: 600;
 }
 
 .withdraw_p .inner button {
     border: 1px solid white;
     padding: 10px 30px;
     border-radius: 20px;
+    color: #000;
+    background-color: var(--firt-color);
 }
 
 /*
@@ -831,11 +865,11 @@ main .wallet_page_back {
 */
 
 .lottary_info {
-    background-color: #0072927e;
+    background-color: #F070E8;
     border-radius: 20px;
     mix-blend-mode: normal;
     box-shadow: inset 0 0 5px 1px #000000ab;
-    border: 1px solid #000;
+    border: 1px solid var(--firt-color);
     position: relative;
     z-index: 2;
     overflow: hidden;
@@ -847,7 +881,7 @@ main .wallet_page_back {
     background-color: transparent;
     color: white;
     border-radius: 20em;
-    padding: 5px 20px; 
+    padding: 5px 20px;
     font-size: 14px;
 }
 
@@ -861,6 +895,11 @@ main .wallet_page_back {
     z-index: 0;
     right: -1em;
 }
+
+.lot_table.table {
+    background-color: var(--firt-color);
+}
+
 
 .lottary_info .inner_icon:nth-child(1) {
     padding: 30px;
@@ -894,7 +933,7 @@ main .wallet_page_back {
 }
 
 .join_lot {
-    background-color: rgba(255, 255, 255, 0.979);
+    background-color: #F070E8;
     display: flex;
     border-radius: 20px;
     box-shadow: 0 0 10px 1px #ffffff21;
@@ -913,15 +952,15 @@ main .wallet_page_back {
 }
 
 .join_lot h2 {
-    color: #1e7ba0;
+    color: var(--firt-color);
 }
 
 .join_lot p {
-    color: #999;
+    color: #fff;
 }
 
 .join_lot input {
-    border-radius:  20em;
+    border-radius: 20em;
     width: 90%;
     border: 1px solid #000;
     color: #000;
@@ -938,13 +977,13 @@ main .wallet_page_back {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
+
 }
 
 
 .join_lot button {
     width: 90%;
-    background-color: #1e7ba0;
+    background-color: var(--firt-color);
     padding: 10px;
     color: #000;
     border-radius: 20em;
@@ -988,9 +1027,9 @@ main .wallet_page_back {
 .organizational-chart {
     font-family: Arial, sans-serif;
     font-size: 14px;
-  }
-  
-  .node {
+}
+
+.node {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -1001,13 +1040,13 @@ main .wallet_page_back {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-  }
-  
-  .node img {
+}
+
+.node img {
     width: 120px;
     height: 120px;
     border-radius: 10px;
-  }
+}
 
 /*
 -----------------------------------------
@@ -1022,45 +1061,45 @@ main .wallet_page_back {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
     margin: 0 auto;
-    max-width: 400px;
+    height: 100vh;
     padding: 20px;
-    background-color: transparent;
+    background-color: #F070E8;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .referral-code-header {
+}
+
+.referral-code-header {
     text-align: center;
     margin-bottom: 20px;
-  }
-  
-  .referral-code-header h1 {
+}
+
+.referral-code-header h1 {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 10px;
     color: #fff;
-  }
+}
 
-  .referral-code p {
+.referral-code p {
     margin-bottom: 20px;
-  }
-  
-  .referral-code-header img {
+    color: #fff;
+}
+
+.referral-code-header img {
     width: 120px;
     height: 120px;
     margin: 0 auto;
     display: block;
     margin-bottom: 20px;
-  }
-  
-  .referral-code-description {
+}
+
+.referral-code-description {
     font-size: 16px;
     text-align: center;
     margin-bottom: 30px;
-  }
-  
-  .referral-code-value {
+}
+
+.referral-code-value {
     background-color: #A53DDB;
     padding: 20px;
     border-radius: 10px;
@@ -1068,33 +1107,37 @@ main .wallet_page_back {
     font-weight: bold;
     text-align: center;
     margin-bottom: 20px;
-  }
-  
-  .referral-code-value span {
+    color: rgba(251, 255, 5, 0.932);
+}
+
+.referral-code-value span {
     color: #3e8e41;
-  }
-  
-  .referral-code-copy-button {
+}
+
+.navbar-end2 {
+    display: none;
+}
+
+.referral-code-copy-button {
     color: white;
-    padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     text-decoration: underline;
     font-size: 16px;
-    margin-bottom: 20px;
     font-weight: bold;
-  }
-  
-  .referral-code-copied-message {
+}
+
+
+.referral-code-copied-message {
     font-size: 16px;
-    color: #8D7ADC;
+    color: rgba(251, 255, 5, 0.932) !important;
     margin-top: -10px;
     position: absolute;
-    top: 5EM;
-  }
-  
-  .referral-code-share-button {
+    top: .8em;
+}
+
+.referral-code-share-button {
     background-color: #679EC1;
     color: #000;
     padding: 10px 20px;
@@ -1103,7 +1146,140 @@ main .wallet_page_back {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-  }
+}
+
+
+/*
+-----------------------------------------
+-----------------------------------------
+------------- 404 not found -------------
+-----------------------------------------
+-----------------------------------------
+*/
+
+
+.not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: transparent;
+    padding: 20px;
+}
+
+.not-found h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #FFF;
+}
+
+.not-found p {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.not-found img {
+    width: 400px;
+    height: 300px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+.outlined-basic::placeholder {
+    font-family: yekanbakhb;
+}
+
+/*
+-----------------------------------------
+-----------------------------------------
+-------------- my team ---------------
+-----------------------------------------
+-----------------------------------------
+*/
+
+
+.modal.is-active {
+    position: fixed;
+    z-index: 2000;
+}
+
+/*
+-----------------------------------------
+-----------------------------------------
+-------------- setting ---------------
+-----------------------------------------
+-----------------------------------------
+*/
+
+
+
+.profile-modal {
+    max-width: 400px;
+    margin: 70px auto;
+    padding: 20px;
+    background-color: #F070E8;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-modal .title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.profile-modal .profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-modal .label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #000;
+}
+
+.profile-modal .value {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #000;
+}
+
+.profile-modal .input-field {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.profile-modal .avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.profile-modal .update-btn {
+    width: 100%;
+    height: 40px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.profile-modal .update-btn:hover {
+    background-color: #3e8e41;
+}
 
 /*
 -----------------------------------------
@@ -1113,13 +1289,79 @@ main .wallet_page_back {
 -----------------------------------------
 */
 
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .modal-body {
+    padding: 20px;
+  }
+.notification {
+    position: fixed;
+    top: 30%;
+    right: 1em;
+    transform: translateX(100%);
+    transition: transform 0.5s ease-in-out;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 20000;
+  }
+  
+  .notification.open {
+    transform: translateX(0);
+  }
+  
+  .notification-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .notification p {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
 
 .mobile-navbar {
     display: none !important;
 }
 
+.navbar-brand {
+    display: none;
+}
 
-@media (max-width: 768px) {
+
+@media (max-width: 1024px) {
+    .info__lattary {
+        margin-bottom: 5em;
+    }
     .login__bod {
         transition: all 0.5s ease-in-out;
         width: 100%;
@@ -1136,13 +1378,6 @@ main .wallet_page_back {
         bottom: 0;
     }
 
-    .login__bod.hide {
-        transform: translateY(100vh);
-    }
-
-    .login__bod2 {
-        transition: all 0.5s ease-in-out;
-    }
 
     .login__bod2.hide {
         transform: translateY(100%);
@@ -1188,7 +1423,7 @@ main .wallet_page_back {
         width: 100%;
         background-color: #000000;
         padding: 1rem;
-        display: flex;
+        display: flex !important;
         justify-content: space-between;
         align-items: center;
         transition: background-color 0.3s ease, transform 0.3s ease;
@@ -1231,13 +1466,23 @@ main .wallet_page_back {
         color: #2b6ca5 !important;
     }
 
+    .referral-code {
+        margin-bottom: 5em;
+        height: auto;
+    }
+
+    .referral-code-value {
+        font-size: 20px;
+    }
+
     .referalls {
         margin-bottom: 5em;
-        padding: 57px 10px;
     }
 
     .bottom_wallet .info_pending {
         width: 100%;
+        padding: 1.8em 10px;
+        margin: 0;
     }
 
     .bottom_wallet h2 {
@@ -1255,7 +1500,7 @@ main .wallet_page_back {
     }
 
     .bottom_wallet {
-        margin-top: 2em;
+        margin-top: 3em;
     }
 
     .top_inf {
@@ -1266,9 +1511,9 @@ main .wallet_page_back {
     }
 
     .top_wallet {
-        border-bottom-left-radius: 6em;
-        border-bottom-right-radius: 6em;
-        padding-bottom: 3em;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        padding-bottom: 2em;
     }
 
     .top_dep {
@@ -1283,7 +1528,7 @@ main .wallet_page_back {
     }
 
     .dep_m {
-        height: 90vh;
+        height: 80vh;
     }
 
     .withdraw_p {
@@ -1294,12 +1539,36 @@ main .wallet_page_back {
         justify-content: center;
         flex-direction: column;
     }
-    .wallet_page .wallet__have{
+
+    .wallet_page .wallet__have {
         align-items: start;
     }
 
+    .wallet_page {
+        border-radius: 0 !important;
+    }
+
+    .navbar-end2 {
+        display: block;
+    }
+
+    main .wallet_page_back {
+        padding: 20em;
+    }
+
+    .Login .input-field {
+        font-size: 14px;
+        padding: 0;
+    }
+
+    .Login {
+        height: 100%;
+        color: greenyellow;
+    }
+
     .lottary_info {
-        margin-top: 0;
+        margin-top: 5em;
+        padding: 3em 0;
     }
 
     .lottary_info .lottary__info_heads h3 {
@@ -1317,13 +1586,22 @@ main .wallet_page_back {
         flex-direction: column;
     }
 
-    .join_lot input , .join_lot button {
+    .join_lot input,
+    .join_lot button {
         width: 100%;
     }
-    
+
 
     header {
         display: none;
     }
 
+}
+
+@media (max-width: 500px) {
+    .referral-code{
+        height: 90vh !important;
+    }
+
+    
 }

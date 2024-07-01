@@ -1,13 +1,14 @@
 import Header from "../components/Header";
 import PersonIcon from '@mui/icons-material/Person';
 import { Link } from "react-router-dom";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import HouseIcon from '@mui/icons-material/House';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import HowToVoteIcon from '@mui/icons-material/HowToVote';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import axios from "axios";
 
 export default function Wallet() {
     const [selected, setSelected] = useState(null);
@@ -18,6 +19,36 @@ export default function Wallet() {
         setSelected(item);
     };
 
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userData, setUserData] = useState({});
+    const [deposits, setDeposits] = useState([]);
+
+    useEffect(() => {
+        const storedUserData = localStorage.getItem('userData');
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        const token = userData.token;
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`, // send the token as a Bearer token
+                'Content-Type': 'ultipart/form-data', // set the content type to multipart/form-data
+            },
+        };
+        axios.get('https://luckyx.cloud/api/v1/user/deposits', config)
+            .then(response => {
+                const data = response.data.deposits
+                setDeposits(data);
+            })
+            .catch(error => {
+                // console.error(error);
+            })
+
+        if (storedUserData) {
+            setUserData(JSON.parse(storedUserData));
+            setIsLoggedIn(true);
+        }
+    }, []);
+
+
     return (
         <>
             <header>
@@ -26,12 +57,16 @@ export default function Wallet() {
 
             <main >
                 <span className="wallet_page_back"></span>
-                <div className="wallet_page mt-6 container">
+                <div className="wallet_page container">
                     <div className="columns is-flex-mobile top_wal">
-                        <div className="column has-text-centered">
+                        
+                        <div className="column ">
+                            <h3 className="has-text-left" style={{color: 'yellow'}}>Hello {userData.name}</h3>
                             <h2>Main Wallet</h2>
                         </div>
-                        <div className="column has-text-centered">
+                        
+                        <div className="column has-text-right">
+                            
                             <Link to={'/Profile'}>
                                 <PersonIcon className="top_wal_icon" /></Link>
                         </div>
@@ -39,8 +74,7 @@ export default function Wallet() {
 
                     <div className="columns wallet__have">
                         <div className="column ">
-                            <h2>91,150.00$</h2>
-                            <p>235442.00 TRX</p>
+                            <h2>{userData && userData.balance ? userData.balance.toLocaleString('en-US', { minimumFractionDigits: 4, maximumFractionDigits: 4 }) : '0.0000'} TRX</h2>
                         </div>
                     </div>
 
@@ -86,12 +120,12 @@ export default function Wallet() {
 
                 <div className="columns container">
                     {showInfo === 'deposits' && (
-                        <div className="card" style={{width: '100%'}}>
+                        <div className="card" style={{ width: '100%', marginBottom: '6em' }}>
                             <div className="card-header">
                                 <p className="card-header-title">Deposits Information</p>
                             </div>
                             <div className="card-content">
-                                <table className="table" style={{width: '100%'}}>
+                                <table className="table" style={{ width: '100%' }}>
                                     <thead>
                                         <tr>
                                             <th>Date</th>
@@ -99,40 +133,28 @@ export default function Wallet() {
                                             <th>Amount</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>2022-01-01</td>
+                                    {deposits.map((deposit, index) => (
+                                        <tr key={index}>
+                                            <td>{new Date(deposit.date * 1000).getFullYear() + '/' + (new Date(deposit.date * 1000).getMonth() + 1) + '/' + new Date(deposit.date * 1000).getDate()}</td>
                                             <td>
-                                                <span className="tag is-success">Done</span>
+                                                <span className={`tag ${deposit.status === 'pending' ? 'is-warning' : 'is-success'}`}>
+                                                    {deposit.status}
+                                                </span>
                                             </td>
-                                            <td>$100</td>
+                                            <td>{deposit.amount} TRX</td>
                                         </tr>
-                                        <tr>
-                                            <td>2022-01-15</td>
-                                            <td>
-                                                <span className="tag is-warning">Pending</span>
-                                            </td>
-                                            <td>$200</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2022-02-01</td>
-                                            <td>
-                                                <span className="tag is-success">Done</span>
-                                            </td>
-                                            <td>$300</td>
-                                        </tr>
-                                    </tbody>
+                                    ))}
                                 </table>
                             </div>
                         </div>
                     )}
                     {showInfo === 'withdraw' && (
-                        <div className="card" style={{width: '100%'}}>
+                        <div className="card" style={{ width: '100%', marginBottom: '6em' }}>
                             <div className="card-header">
                                 <p className="card-header-title">Withdraw Information</p>
                             </div>
-                            <div className="card-content">
-                                <table className="table" style={{width: '100%'}}>
+                            {/* <div className="card-content">
+                                <table className="table" style={{ width: '100%' }}>
                                     <thead>
                                         <tr>
                                             <th>Date</th>
@@ -164,7 +186,7 @@ export default function Wallet() {
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
+                            </div> */}
                         </div>
                     )}
                 </div>
@@ -194,11 +216,7 @@ export default function Wallet() {
                                 <HouseIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
                             </Link>
                         </li>
-                        <li>
-                            <Link to="/ref" className={selected === 'eferrals' ? 'selected' : ''} onClick={() => handleClick('referrals')}>
-                                <SupervisorAccountIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
-                            </Link>
-                        </li>
+                        
                         <li>
                             <Link to="/latary" className={selected === 'lotarry' ? 'selected' : ''} onClick={() => handleClick('lottery')}>
                                 <HowToVoteIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
@@ -214,11 +232,7 @@ export default function Wallet() {
                                 <AccountBalanceWalletIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
                             </Link>
                         </li>
-                        <li>
-                            <Link to="#" className={selected === 'ettings' ? 'selected' : ''} onClick={() => handleClick('settings')}>
-                                <SettingsIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
-                            </Link>
-                        </li>
+                        
                     </ul>
                 </nav>
             </main>

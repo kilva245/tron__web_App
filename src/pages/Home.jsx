@@ -1,17 +1,17 @@
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import HouseIcon from '@mui/icons-material/House';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import HowToVoteIcon from '@mui/icons-material/HowToVote';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import TelegramIcon from '@mui/icons-material/Telegram';
-import YouTubeIcon from '@mui/icons-material/YouTube';
-import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
+import axios from "axios";
 import LogoutIcon from '@mui/icons-material/Logout';
-
+import TelegramIcon from '@mui/icons-material/Telegram';
+import GroupsIcon from '@mui/icons-material/Groups';
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 
 export default function Home() {
     const [selected, setSelected] = useState(null);
@@ -20,12 +20,7 @@ export default function Home() {
         setSelected(item);
     };
 
-    const users = [
-        { id: 1, name: 'John', family: 'Doe', email: 'john@example.com', balance: 20 },
-        { id: 2, name: 'Jane', family: 'Smith', email: 'jane@example.com', balance: 20 },
-        { id: 3, name: 'Bob', family: 'Johnson', email: 'bob@example.com', balance: 20 },
-        //...
-    ];
+
 
     const [burger_class, setBurgerClass] = useState("burger-bar unclicked")
     const [menu_class, setMenuClass] = useState("menu hidden")
@@ -56,6 +51,43 @@ export default function Home() {
         setIsMenuClicked(false)
     }
 
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userData, setUserData] = useState({});
+    const [joinedUsersCount, setJoinedUsersCount] = useState(1);
+
+    useEffect(() => {
+        function handleUserJoined() {
+            setJoinedUsersCount(prevCount => prevCount + 1);
+        }
+    }, []);
+
+    useEffect(() => {
+        const storedUserData = localStorage.getItem('userData');
+        if (storedUserData) {
+            setUserData(JSON.parse(storedUserData));
+            setIsLoggedIn(true);
+        }
+    }, []);
+    const handleLogout = () => {
+        localStorage.removeItem('userData');
+        setIsLoggedIn(false);
+        window.location.href = '/';
+    };
+
+    const [data, setData] = useState({});
+
+    useEffect(() => {
+        axios.get('https://luckyx.cloud/api/v1/lastlottery')
+            .then(response => {
+                setData(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, []);
+    const wl = localStorage.getItem('userData');
+
+
     return (
         <>
             <header>
@@ -70,89 +102,129 @@ export default function Home() {
                     <div className="container px-3">
                         <div className="columns mt-5">
                             <div className="column hero__title">
-                                <span className="mobile__signUp">
 
-                                    <div className="buttons">
-                                        <div className="mobile__nav_left">
-                                            <nav className=" is-flex is-justify-content-space-between">
-                                                <div className="burger-menu" onClick={updateMenu}>
-                                                    <div className={burger_class}></div>
-                                                    <div className={burger_class}></div>
-                                                    <div className={burger_class}></div>
-                                                </div>
+                                <div className="navbar-end navbar-end2 ">
+                                    {isLoggedIn ? (
+                                        <>
 
-                                            </nav>
+                                            <span className="mobile__signUp">
+                                                <div className="navbar-item has-text-right">
 
-                                            <div className={menu_class}>
-                                                <div className="mnn">
-                                                    <div className="mnu" onClick={close1}>
+                                                    <div className="logout-icon">
+                                                        <a onClick={handleLogout}>
+                                                            <LogoutIcon style={{ color: '#fff', fontSize: 24, marginRight: 10 }} />
+                                                        </a>
                                                     </div>
+                                                </div>
+                                                <div className="buttons">
+                                                    <div className="mobile__nav_left">
+                                                        <nav className=" is-flex is-justify-content-space-between">
+                                                            <div className="burger-menu" onClick={updateMenu}>
+                                                                <div className={burger_class}></div>
+                                                                <div className={burger_class}></div>
+                                                                <div className={burger_class}></div>
+                                                            </div>
 
-                                                    <div className="menu__mob">
-                                                        <div className="columns">
-                                                            <div className="column is-12">
-                                                                <div className="user__info is-flex">
-                                                                    <img src="./assets/images/login-i.jpg" width={100} alt="user" />
-                                                                    <p>Hello,<br /> <strong>Yash Vardhan</strong></p>
+                                                        </nav>
+
+                                                        <div className={menu_class}>
+                                                            <div className="mnn">
+                                                                <div className="mnu" onClick={close1}>
+                                                                </div>
+
+                                                                <div className="menu__mob">
+                                                                    <div className="columns">
+                                                                        <div className="column is-12" style={{ position: 'relative', left: '-20px' }}>
+                                                                            <div className="user__info is-flex">
+                                                                                <img src={userData.avatar} width={100} alt="user" />
+                                                                                <p style={{ color: 'yellow', fontWeight: 'bold', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>Hello,<br /> <strong style={{ color: '#000', fontWeight: 'bold' }}>{userData.name}</strong></p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <hr style={{ position: 'relative', left: '-1em', marginBottom: 10, marginTop: 0 }} />
+                                                                    <div style={{ height: '100%', overflow: '-moz-scrollbars-vertical', overflowX: 'hidden', overflowY: 'auto' }}>
+                                                                        <ul className="is-flex is-flex-direction-column columns "  style={{ height: '580px', overflow: '-moz-scrollbars-vertical', overflowX: 'hidden', overflowY: 'auto'}}>
+                                                                            <Link to={'/wallet'}>
+                                                                                <li className="is-flex column">
+                                                                                    <AccountBalanceWalletIcon style={{ color: '#fff', fontSize: 30, marginRight: 10, borderRadius: 60, padding: 5, backgroundColor: '#F070E8' }} />
+                                                                                    <h2>Wallet</h2>
+                                                                                </li>
+                                                                            </Link>
+                                                                            <Link to={'/referral-code'}>
+                                                                                <li className="is-flex column">
+                                                                                    <SupervisorAccountIcon style={{ color: '#fff', fontSize: 30, marginRight: 10, borderRadius: 60, padding: 5, backgroundColor: '#F070E8' }} />
+                                                                                    <h2>Invite Friends</h2>
+                                                                                </li>
+                                                                            </Link>
+                                                                            <a href="https://t.me/upporteronline24">
+                                                                                <li className="is-flex column">
+                                                                                    <TelegramIcon style={{ color: '#fff', fontSize: 30, marginRight: 10, borderRadius: 60, padding: 5, backgroundColor: '#F070E8' }} />
+                                                                                    <h2>Help Us</h2>
+                                                                                </li>
+                                                                            </a>
+                                                                            <a href="https://t.me/iranairdrop17">
+                                                                                <li className="is-flex column">
+                                                                                    <TelegramIcon style={{ color: '#fff', fontSize: 30, marginRight: 10, borderRadius: 60, padding: 5, backgroundColor: '#F070E8' }} />
+                                                                                    <h2>Telegram channel</h2>
+                                                                                </li>
+                                                                            </a>
+                                                                            <Link to={'/ref'}>
+                                                                                <li className="is-flex column">
+                                                                                    <GroupsIcon style={{ color: '#fff', fontSize: 30, marginRight: 10, borderRadius: 60, padding: 5, backgroundColor: '#F070E8' }} />
+                                                                                    <h2>my team</h2>
+                                                                                </li>
+                                                                            </Link>
+
+                                                                            <li className="is-flex column">
+                                                                                <PriorityHighIcon style={{ color: '#fff', fontSize: 30, marginRight: 10, borderRadius: 60, padding: 5, backgroundColor: '#F070E8' }} />
+                                                                                <h2>Privacy policy</h2>
+                                                                            </li>
+                                                                            <Link to={'/setting'}>
+                                                                                <li className="is-flex column">
+                                                                                    <SettingsIcon style={{ color: '#fff', fontSize: 30, marginRight: 10, borderRadius: 60, padding: 5, backgroundColor: '#F070E8' }} />
+                                                                                    <h2>setting</h2>
+                                                                                </li>
+                                                                            </Link>
+                                                                            <li onClick={handleLogout} className="is-flex column">
+                                                                                <LogoutIcon style={{ color: '#fff', fontSize: 30, marginRight: 10, borderRadius: 60, padding: 5, backgroundColor: '#F070E8' }} />
+                                                                                <h2>Logout</h2>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
                                                                 </div>
                                                             </div>
+
+
                                                         </div>
-                                                        <hr />
-                                                        <ul className="is-flex is-flex-direction-column columns">
-                                                            <li className="is-flex column">
-                                                                <AccountBalanceWalletIcon style={{ color: '#fff', fontSize: 30, marginRight: 10 }} />
-                                                                <h2>Wallet</h2>
-                                                            </li>
-                                                            <Link to={'/referral-code'}>
-                                                                <li className="is-flex column">
-                                                                    <SupervisorAccountIcon style={{ color: '#fff', fontSize: 30, marginRight: 10 }} />
-                                                                    <h2>Invite Friends</h2>
-                                                                </li>
-                                                            </Link>
-                                                            <li className="is-flex column">
-                                                                <TelegramIcon style={{ color: '#fff', fontSize: 30, marginRight: 10 }} />
-                                                                <h2>Help Us</h2>
-                                                            </li>
-                                                            <li className="is-flex column">
-                                                                <TelegramIcon style={{ color: '#fff', fontSize: 30, marginRight: 10 }} />
-                                                                <h2>Telegram channel</h2>
-                                                            </li>
-                                                            <li className="is-flex column">
-                                                                <YouTubeIcon style={{ color: '#fff', fontSize: 30, marginRight: 10 }} />
-                                                                <h2>Youtube channel</h2>
-                                                            </li>
-                                                            <li className="is-flex column">
-                                                                <PriorityHighIcon style={{ color: '#fff', fontSize: 30, marginRight: 10 }} />
-                                                                <h2>Privacy policy</h2>
-                                                            </li>
-                                                            <li className="is-flex column">
-                                                                <LogoutIcon style={{ color: '#fff', fontSize: 30, marginRight: 10 }} />
-                                                                <h2>Logout</h2>
-                                                            </li>
-                                                        </ul>
                                                     </div>
+
                                                 </div>
-
-
+                                            </span>
+                                        </>
+                                    ) : (
+                                        <div className="navbar-item">
+                                            <div className="buttons">
+                                                <div class="buttonn">
+                                                    <Link to={'/sign-up'} class="btnn fx01">
+                                                        <span>Sign up</span>
+                                                    </Link>
+                                                </div>
+                                                <div class="buttonn">
+                                                    <Link href="#" to={'/Login'} class="btnn fx01">
+                                                        <span>Log in</span>
+                                                    </Link>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="buttonn">
-                                            <Link to={'/SignUp'} class="btnn fx01">
-                                                <span>Sign up</span>
-                                            </Link>
-                                        </div>
-                                        <div class="buttonn">
-                                            <Link href="#" to={'/Login'} class="btnn fx01">
-                                                <span>Log in</span>
-                                            </Link>
-                                        </div>
+                                    )}
 
-                                    </div>
-                                </span>
+                                </div>
+
+
                                 <h1>PLAY TO WIN</h1>
                                 <p>play lottery to win big price <br /> deposit tron and play game</p>
                                 <div class="button_ti mt-5">
-                                    <Link to={'/SignUp'} class="btnn fx01">
+                                    <Link to={'/sign-up'} class="btnn fx01">
                                         <span>see more</span>
                                     </Link>
                                 </div>
@@ -168,45 +240,51 @@ export default function Home() {
                                 <span className="inner_icon"></span>
                                 <span className="inner_icon"></span>
                                 <div className="columns">
-                                    <div className="column is-6 wallet__info_heads ">
+                                    <div className="column wallet__info_heads ">
                                         <span>
-                                        <p>Balance</p>
-                                        <h3>0$</h3>
-                                        <h4>0.0000000 TRX</h4>
+                                            <p>Balance</p>
+                                            <h3>{userData.balance}TRX</h3>
+                                            <h4 style={{ color: 'yellow' }}>Available Balance</h4>
                                         </span>
                                         <div className=" tron__dep">
-                                        <button>deposit</button>
+                                            <Link to={'/wallet/deposit'}>
+                                                <button>deposit</button>
+                                            </Link>
+                                        </div>
                                     </div>
-                                    </div>
-                                    
+
                                 </div>
                             </div>
                             <div className="column"></div>
                         </div>
                     </div>
                 </div>
-                <div className="px-3">
+                <div className="px-3 info__lattary">
                     <div className="columns container users px-0">
-                        <ul>
-                            <li className="user-item">
-                                <span>name</span>
-                                <span className="mr-6">family</span>
-                                <span className="mr-5">Email</span>
-                                <span className="ml-2">Balance</span>
-                            </li>
-                            {users.map((user) => (
-                                <>
-
-                                    <li key={user.id} className="user-item">
-
-                                        <span className="user-name">{user.name}</span>
-                                        <span className="user-family">{user.family}</span>
-                                        <span className="user-email">{user.email}</span>
-                                        <span className="user-balance">${user.balance}</span>
-                                    </li>
-                                </>
-                            ))}
-                        </ul>
+                        <table className="table lot_table is-fullwidth" style={{ borderRadius: 20 }}>
+                            <thead>
+                                <tr>
+                                    <th className="has-text-centered" style={{ color: '#000', fontWeight: 'bold', fontSize: 14 }}>user</th>
+                                    <th className="has-text-centered" style={{ color: '#000', fontWeight: 'bold', fontSize: 14 }}>Name</th>
+                                    <th className="has-text-centered" style={{ color: '#000', fontWeight: 'bold', fontSize: 14 }}>Tickets</th>
+                                    <th className="has-text-centered" style={{ color: '#000', fontWeight: 'bold', fontSize: 14 }}>Status</th>
+                                    <th className="has-text-centered" style={{ color: '#000', fontWeight: 'bold', fontSize: 14 }}>date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {data.tickets && data.tickets.map((ticket, index) => (
+                                    <tr key={index}>
+                                        <td className="has-text-centered" style={{ color: '#000', fontSize: 12 }}>{joinedUsersCount}</td>
+                                        <td className="has-text-centered" style={{ color: '#000', fontSize: 12 }}>{ticket.name}</td>
+                                        <td className="has-text-centered" style={{ color: '#000', fontSize: 12 }}>1 (100 TRX)</td>
+                                        <td className="has-text-centered" style={{ color: '#000', fontSize: 12 }}>joined</td>
+                                        <td className="has-text-centered" style={{ color: '#000', fontSize: 12 }}>
+                                            {new Date(ticket.date * 1000).getFullYear() + '/' + (new Date(ticket.date * 1000).getMonth() + 1) + '/' + new Date(ticket.date * 1000).getDate()}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
@@ -219,11 +297,7 @@ export default function Home() {
                                 <HouseIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
                             </Link>
                         </li>
-                        <li>
-                            <Link to="/ref" className={selected === 'eferrals' ? 'selected' : ''} onClick={() => handleClick('referrals')}>
-                                <SupervisorAccountIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
-                            </Link>
-                        </li>
+
                         <li>
                             <Link to="/latary" className={selected === 'lotarry' ? 'selected' : ''} onClick={() => handleClick('lottery')}>
                                 <HowToVoteIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
@@ -239,11 +313,7 @@ export default function Home() {
                                 <AccountBalanceWalletIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
                             </Link>
                         </li>
-                        <li>
-                            <Link to="#" className={selected === 'ettings' ? 'selected' : ''} onClick={() => handleClick('settings')}>
-                                <SettingsIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
-                            </Link>
-                        </li>
+
                     </ul>
 
                 </nav>
