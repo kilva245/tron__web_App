@@ -1,5 +1,5 @@
 import Header from "../components/Header";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import HouseIcon from '@mui/icons-material/House';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
@@ -8,24 +8,114 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import axios from "axios";
+import Notification from "../components/Notification";
 
 export default function Profile() {
+    const navigate = useNavigate();
+    const [userData, setUserData] = useState({});
     const [selected, setSelected] = useState(null);
-    const [userData, setUserData] = useState(null);
+    const [token, setToken] = useState(null); // Initialize token state
+    const [expiresAt, setExpiresAt] = useState(null);
+    const [isOpen, setIsOpen] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
+    const [showNotification, setShowNotification] = useState(false);
 
     useEffect(() => {
         const storedUserData = localStorage.getItem('userData');
         if (storedUserData) {
-            setUserData(JSON.parse(storedUserData));
-        } else {
-            // If no user data is found in local storage, redirect to login page
-            return <Navigate to="/login" replace />;
+            const userDataJson = JSON.parse(storedUserData);
+            setUserData(userDataJson);
+            setToken(userDataJson.token);
         }
     }, []);
 
+    useEffect(() => {
+        if (token) {
+            axios.get('https://luckyx.cloud/api/v1/user/profile', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+                .then(response => {
+                    if (response.data.code === 1) {
+                        const userData = response.data.user;
+                        localStorage.setItem('userData', JSON.stringify(userData));
+                        setUserData(userData);
+                        setToken(userData.token);
+                    } else {
+                        // Token has changed, display modal and redirect to login page
+                        handleTokenChanged();
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    }, [token]);
+    const handleTokenChanged = () => {
+        setIsOpen(true);
+        setNotificationMessage('Token axpired, Login again');
+        setShowNotification(true);
+        setTimeout(() => {
+            localStorage.removeItem('userData');
+            navigate('/login', { replace: true });
+        }, 3000); // Wait 3 seconds before redirecting to login page
+    };
+
+    const [parents, setParents] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [totalReward, setTotalReward] = useState(0);
+
+
+    const authHeader = {
+        'Authorization': `Bearer ${token}`,
+    };
+
+    useEffect(() => {
+        const fetchChildren = async () => {
+            try {
+                const response = await axios.get('https://luckyx.cloud/api/v1/user/box', {
+                    headers: authHeader,
+                });
+                const children = response.data;
+                setParents(children);
+                if (children && children.children && Array.isArray(children.children)) {
+                    setTotalReward(children.children.reduce((acc, child) => acc + child.reward, 0));
+                } else {
+                    setTotalReward(0);
+                }
+            } catch (error) {
+                // console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchChildren();
+    }, [token]);
+
+
+    const [refferal, setRefferal] = useState({});
+
+    useEffect(() => {
+        if (token) { // Check if token is initialized before using it
+            axios.get('https://luckyx.cloud/api/v1/user/tree', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+                .then(response => {
+                    const refferalData = response.data;
+                    setRefferal(refferalData); // Update the refferal state
+                })
+                .catch(error => {
+                    // console.error(error);
+                });
+        }
+    }, [token]); // Add token to the dependency array
+
+
+
     const [tickets, setTickets] = useState([]);
-    const userData2 = localStorage.getItem('userData');
-    const token = userData2
 
     useEffect(() => {
         axios.get('https://luckyx.cloud/api/v1/user/mytickets', {
@@ -37,7 +127,7 @@ export default function Profile() {
                 setTickets(response.data.tickets);
             })
             .catch(error => {
-                console.error(error);
+                // console.error(error);
             });
     }, [token]);
 
@@ -49,17 +139,24 @@ export default function Profile() {
         setSelected(item);
     };
 
+
+    const subLeftName = refferal?.sub_left?.name || null;
+    const subRightName = refferal?.sub_right?.name || null;
+    const subLeftAvatar = refferal?.sub_left?.avatar || null;
+    const subRightAvatar = refferal?.sub_right?.avatar || null;
+
     return (
         <>
+            <Notification message={notificationMessage} open={showNotification} />
             <header>
                 <Header />
             </header>
 
             <main>
-                
+
                 <div className="wallet">
                     <div className="top_wallet ">
-                        <div className="top_wallet_inner container px-3">
+                        <div className="top_wallet_inner container px-5">
                             <h3>welcome Back!</h3>
                             <div className="columns">
                                 <div className="column">
@@ -82,47 +179,52 @@ export default function Profile() {
                         <div className="column is-6-mobile">
                             <h2>Activities</h2>
                             <div>
-                                <div className="info_pending ">
-                                    <div className="columns is-flex-mobile  has-text-centered">
-                                        <div className="column">
-                                            <p style={{fontSize: 14, fontWeight: 'bold'}}> rewards <br /> <strong style={{fontSize: 16, color: 'yellow'}}>{userData.reward} </strong></p>
+                                <Link to={'/profile/rewards'}>
+                                    <div className="info_pending ">
+                                        <span className="detailss" >Details</span>
+                                        <div className="columns is-flex-mobile has-text-centered">
+
+                                            <div className="column">
+                                                <p style={{ fontSize: 14, fontWeight: 'bold' }}> rewards <br /><strong style={{ fontSize: 40, color: 'yellow' }}>{totalReward} </strong></p>
+                                            </div>
+
+
                                         </div>
-                                        
                                     </div>
-                                </div>
+                                </Link>
+                                <Link to={'/profile/tickets'}>
+                                    <div className="info_pending mt-2 ">
+                                        <span className="detailss" >Details</span>
+                                        <div className="has-text-centered tickets">
+                                            <h3>Tickets Buy</h3>
+                                            {tickets && <h2>{tickets?.length ?? 0}</h2>}
+                                        </div>
+                                    </div>
 
-                                <div className="info_pending mt-2 ">
-                                    <div className="has-text-centered tickets">
-                                        <h3>Tickets Buy</h3>
-                                        <h2>{tickets?.length ?? 1}</h2>
-                                    </div>
-                                </div>
+                                </Link>
                             </div>
-
                         </div>
-                        <div className="column  is-6-mobile">
-                            <h2 className="has-text-centered">Reports Of Ref</h2>
-                            <div className="referalls">
-                                <h2>12</h2>
-                                <p>Referalls</p>
-                                <p className="mt-4">
-                                    referalls have
-                                </p>
 
-                                <span className="is-flex mt-5">
-                                    <img src="./assets/images/wallet.jpg" alt="" />
-                                    <img src="./assets/images/wallet.jpg" alt="" />
-                                    <img src="./assets/images/wallet.jpg" alt="" />
-                                    <div className="info_image">
-                                        <p className="has-text-light">+12</p>
-                                    </div>
-                                </span>
-                                {/* <div class="buttonn">
-                                    <Link href="#" to={'/'} class="btnn fx01">
-                                        <span>more</span>
-                                    </Link>
-                                </div> */}
-                            </div>
+                        <div className="column  is-6-mobile">
+                            <Link to={'/allRef'}>
+                                <h2 className="has-text-centered">Reports Of Ref</h2>
+                                <div className="referalls">
+                                    <h2>{parents.countchilds}</h2>
+                                    <p>Referalls</p>
+                                    <p className="mt-4">
+                                        referalls have
+                                    </p>
+                                    <span className="is-flex mt-5">
+                                        {subLeftAvatar && <img src={`${process.env.PUBLIC_URL}/${subLeftAvatar}`} alt={subLeftName ?? ''} />}
+                                        {subRightAvatar && <img src={`${process.env.PUBLIC_URL}/${subRightAvatar}`} alt={subRightName ?? ''} />}
+                                        <div className="info_image">
+                                            <p className="has-text-light">+{(subLeftName ? 1 : 0) + (subRightName ? 1 : 0)}</p>
+                                        </div>
+                                    </span>
+                                </div>
+
+
+                            </Link>
                         </div>
                     </div>
 
@@ -131,29 +233,34 @@ export default function Profile() {
                     <ul>
                         <li>
                             <Link to={"/"} className={selected === 'home' ? 'selected' : ''} onClick={() => handleClick('home')}>
-                                <HouseIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
+                                <img src="../assets/icon/homepn.png" width={40} className="mobileMenu_icons" />
+                                {/* <HouseIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} /> */}
                             </Link>
                         </li>
-                        
+
                         <li>
                             <Link to="/latary" className={selected === 'lotarry' ? 'selected' : ''} onClick={() => handleClick('lottery')}>
-                                <HowToVoteIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
+                                <img src="../assets/icon/lottery.png" width={50} className="mobileMenu_icons" />
+                                {/* <HowToVoteIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} /> */}
                             </Link>
                         </li>
                         <li>
                             <Link to="/Profile" className={selected === 'Profile' ? 'selected' : ''} onClick={() => handleClick('Profile')}>
-                                <AccountCircleIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
+                                <img src="../assets/icon/data-management.png" width={50} className="mobileMenu_icons" />
+                                {/* <AccountCircleIcon sx={{ fontSize: 30 }} /> */}
                             </Link>
                         </li>
                         <li>
                             <Link to="/wallet" className={selected === 'Profile' ? 'selected' : ''} onClick={() => handleClick('Wallet')}>
-                                <AccountBalanceWalletIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
+                                <img src="../assets/icon/wallet.png" width={50} className="mobileMenu_icons" />
+                                {/* <AccountBalanceWalletIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} /> */}
                             </Link>
                         </li>
-                        
+
                     </ul>
+
                 </nav>
-            </main>
+            </main >
 
             <footer>
 

@@ -1,7 +1,7 @@
 
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Header from '../components/Header';
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 import HouseIcon from '@mui/icons-material/House';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
@@ -16,10 +16,75 @@ import {
     TelegramShareButton
 } from 'react-share';
 import { WhatsappIcon, FacebookIcon, TwitterIcon, TelegramIcon } from 'react-share';
+import axios from 'axios';
+import Notification from '../components/Notification';
 
 const ReferralCode = () => {
 
+    const navigate = useNavigate();
     const [selected, setSelected] = useState(null);
+    const [token, setToken] = useState(null); // Initialize token state
+    const [expiresAt, setExpiresAt] = useState(null);
+    const [isOpen, setIsOpen] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
+    const [showNotification, setShowNotification] = useState(false);
+    const [userData, setUserData] = useState(null);
+
+    useEffect(() => {
+        const storedUserData = localStorage.getItem('userData');
+        if (storedUserData) {
+            const userDataJson = JSON.parse(storedUserData);
+            setUserData(userDataJson);
+            setToken(userDataJson.token);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (token) {
+            axios.get('https://luckyx.cloud/api/v1/user/profile', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+                .then(response => {
+                    if (response.data.code === 1) {
+                        const userData = response.data.user;
+                        localStorage.setItem('userData', JSON.stringify(userData));
+                        setUserData(userData);
+                        setToken(userData.token);
+                    } else {
+                        // Token has changed, display modal and redirect to login page
+                        handleTokenChanged();
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    }, [token]);
+    const handleTokenChanged = () => {
+        setIsOpen(true);
+        setNotificationMessage('Token axpired, Login again');
+        setShowNotification(true);
+        setTimeout(() => {
+            localStorage.removeItem('userData');
+            navigate('/login', { replace: true });
+        }, 3000); // Wait 3 seconds before redirecting to login page
+    };
+
+
+    useEffect(() => {
+        const storedUserData = localStorage.getItem('userData');
+        if (storedUserData) {
+            const userDataJson = JSON.parse(storedUserData);
+            setUserData(userDataJson);
+            setToken(userDataJson.token);
+            setExpiresAt(userDataJson.expiresAt);
+        } else {
+            // If no user data is found in local storage, redirect to login page
+            return <Navigate to="/login" replace />;
+        }
+    }, []);
 
     const handleClick = (item) => {
         setSelected(item);
@@ -40,18 +105,9 @@ const ReferralCode = () => {
         navigator.clipboard.writeText(signUpLink);
     };
 
-    const [userData, setUserData] = useState(null);
 
-    useEffect(() => {
-        const storedUserData = localStorage.getItem('userData');
-        if (storedUserData) {
-            setUserData(JSON.parse(storedUserData));
 
-        } else {
-            // If no user data is found in local storage, redirect to login page
-            return <Navigate to="/login" replace />;
-        }
-    }, []);
+  
 
 
     const [referralCode, setReferralCode] = useState(null);
@@ -69,11 +125,11 @@ const ReferralCode = () => {
     const shareUrl = `https://luckyx.cloud/referral-code?code=${referralCode}`;
 
 
-    
+
 
     return (
         <>
-
+            <Notification message={notificationMessage} open={showNotification} />
 
             <header>
                 <Header />
@@ -122,27 +178,32 @@ const ReferralCode = () => {
                     <ul>
                         <li>
                             <Link to={"/"} className={selected === 'home' ? 'selected' : ''} onClick={() => handleClick('home')}>
-                                <HouseIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
+                                <img src="../assets/icon/homepn.png" width={40} className="mobileMenu_icons" />
+                                {/* <HouseIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} /> */}
                             </Link>
                         </li>
-                        
+
                         <li>
                             <Link to="/latary" className={selected === 'lotarry' ? 'selected' : ''} onClick={() => handleClick('lottery')}>
-                                <HowToVoteIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
+                                <img src="../assets/icon/lottery.png" width={50} className="mobileMenu_icons" />
+                                {/* <HowToVoteIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} /> */}
                             </Link>
                         </li>
                         <li>
                             <Link to="/Profile" className={selected === 'Profile' ? 'selected' : ''} onClick={() => handleClick('Profile')}>
-                                <AccountCircleIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
+                                <img src="../assets/icon/data-management.png" width={50} className="mobileMenu_icons" />
+                                {/* <AccountCircleIcon sx={{ fontSize: 30 }} /> */}
                             </Link>
                         </li>
                         <li>
                             <Link to="/wallet" className={selected === 'Profile' ? 'selected' : ''} onClick={() => handleClick('Wallet')}>
-                                <AccountBalanceWalletIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
+                                <img src="../assets/icon/wallet.png" width={50} className="mobileMenu_icons" />
+                                {/* <AccountBalanceWalletIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} /> */}
                             </Link>
                         </li>
-                        
+
                     </ul>
+
                 </nav>
             </main>
 

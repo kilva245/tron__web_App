@@ -1,20 +1,67 @@
 import Header from "../components/Header";
-import { Link } from "react-router-dom";
+import { Link, Navigate ,useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
-import HouseIcon from '@mui/icons-material/House';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
-import HowToVoteIcon from '@mui/icons-material/HowToVote';
 import SettingsIcon from '@mui/icons-material/Settings';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import axios from "axios";
 import LogoutIcon from '@mui/icons-material/Logout';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import GroupsIcon from '@mui/icons-material/Groups';
-import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
+import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
+import Notification from "../components/Notification";
 
 export default function Home() {
+    const navigate = useNavigate();
     const [selected, setSelected] = useState(null);
+    const [token, setToken] = useState(null); // Initialize token state
+    const [expiresAt, setExpiresAt] = useState(null);
+    const [isOpen, setIsOpen] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
+    const [showNotification, setShowNotification] = useState(false);
+
+    useEffect(() => {
+        const storedUserData = localStorage.getItem('userData');
+        if (storedUserData) {
+            const userDataJson = JSON.parse(storedUserData);
+            setUserData(userDataJson);
+            setToken(userDataJson.token);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (token) {
+            axios.get('https://luckyx.cloud/api/v1/user/profile', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+                .then(response => {
+                    if (response.data.code === 1) {
+                        const userData = response.data.user;
+                        localStorage.setItem('userData', JSON.stringify(userData));
+                        setUserData(userData);
+                        setToken(userData.token);
+                    } else {
+                        // Token has changed, display modal and redirect to login page
+                        handleTokenChanged();
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    }, [token]);
+    const handleTokenChanged = () => {
+        setIsOpen(true);
+        setNotificationMessage('Token axpired, Login again');
+        setShowNotification(true);
+        setTimeout(() => {
+            localStorage.removeItem('userData');
+            navigate('/login', { replace: true });
+        }, 3000); // Wait 3 seconds before redirecting to login page
+    };
+
 
     const handleClick = (item) => {
         setSelected(item);
@@ -53,13 +100,15 @@ export default function Home() {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userData, setUserData] = useState({});
-    const [joinedUsersCount, setJoinedUsersCount] = useState(1);
+    const [joinedUsersCount, setJoinedUsersCount] = useState(0);
 
-    useEffect(() => {
-        function handleUserJoined() {
-            setJoinedUsersCount(prevCount => prevCount + 1);
-        }
-    }, []);
+
+    const handleUserJoined = () => {
+        setJoinedUsersCount(prevCount => prevCount + 1);
+    };
+
+    // ...
+
 
     useEffect(() => {
         const storedUserData = localStorage.getItem('userData');
@@ -68,6 +117,7 @@ export default function Home() {
             setIsLoggedIn(true);
         }
     }, []);
+
     const handleLogout = () => {
         localStorage.removeItem('userData');
         setIsLoggedIn(false);
@@ -80,6 +130,7 @@ export default function Home() {
         axios.get('https://luckyx.cloud/api/v1/lastlottery')
             .then(response => {
                 setData(response.data);
+                setJoinedUsersCount(response.data.tickets.length); // Update joinedUsersCount here
             })
             .catch(error => {
                 console.error(error);
@@ -90,6 +141,7 @@ export default function Home() {
 
     return (
         <>
+            <Notification message={notificationMessage} open={showNotification} />
             <header>
                 <Header />
 
@@ -136,14 +188,14 @@ export default function Home() {
                                                                     <div className="columns">
                                                                         <div className="column is-12" style={{ position: 'relative', left: '-20px' }}>
                                                                             <div className="user__info is-flex">
-                                                                                <img src={userData.avatar} width={100} alt="user" />
+                                                                                <img src={userData.avatar} width={100} alt="user" style={{ maxWidth: '80%', marginRight: 10 }} />
                                                                                 <p style={{ color: 'yellow', fontWeight: 'bold', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>Hello,<br /> <strong style={{ color: '#000', fontWeight: 'bold' }}>{userData.name}</strong></p>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <hr style={{ position: 'relative', left: '-1em', marginBottom: 10, marginTop: 0 }} />
                                                                     <div style={{ height: '100%', overflow: '-moz-scrollbars-vertical', overflowX: 'hidden', overflowY: 'auto' }}>
-                                                                        <ul className="is-flex is-flex-direction-column columns "  style={{ height: '580px', overflow: '-moz-scrollbars-vertical', overflowX: 'hidden', overflowY: 'auto'}}>
+                                                                        <ul className="is-flex is-flex-direction-column columns " style={{ height: '510px', overflow: '-moz-scrollbars-vertical', overflowX: 'hidden', overflowY: 'auto' }}>
                                                                             <Link to={'/wallet'}>
                                                                                 <li className="is-flex column">
                                                                                     <AccountBalanceWalletIcon style={{ color: '#fff', fontSize: 30, marginRight: 10, borderRadius: 60, padding: 5, backgroundColor: '#F070E8' }} />
@@ -158,11 +210,11 @@ export default function Home() {
                                                                             </Link>
                                                                             <a href="https://t.me/upporteronline24">
                                                                                 <li className="is-flex column">
-                                                                                    <TelegramIcon style={{ color: '#fff', fontSize: 30, marginRight: 10, borderRadius: 60, padding: 5, backgroundColor: '#F070E8' }} />
+                                                                                    <PsychologyAltIcon style={{ color: '#fff', fontSize: 30, marginRight: 10, borderRadius: 60, padding: 5, backgroundColor: '#F070E8' }} />
                                                                                     <h2>Help Us</h2>
                                                                                 </li>
                                                                             </a>
-                                                                            <a href="https://t.me/iranairdrop17">
+                                                                            <a href="https://t.me/LuckyX2500Trx">
                                                                                 <li className="is-flex column">
                                                                                     <TelegramIcon style={{ color: '#fff', fontSize: 30, marginRight: 10, borderRadius: 60, padding: 5, backgroundColor: '#F070E8' }} />
                                                                                     <h2>Telegram channel</h2>
@@ -175,10 +227,6 @@ export default function Home() {
                                                                                 </li>
                                                                             </Link>
 
-                                                                            <li className="is-flex column">
-                                                                                <PriorityHighIcon style={{ color: '#fff', fontSize: 30, marginRight: 10, borderRadius: 60, padding: 5, backgroundColor: '#F070E8' }} />
-                                                                                <h2>Privacy policy</h2>
-                                                                            </li>
                                                                             <Link to={'/setting'}>
                                                                                 <li className="is-flex column">
                                                                                     <SettingsIcon style={{ color: '#fff', fontSize: 30, marginRight: 10, borderRadius: 60, padding: 5, backgroundColor: '#F070E8' }} />
@@ -204,13 +252,13 @@ export default function Home() {
                                     ) : (
                                         <div className="navbar-item">
                                             <div className="buttons">
-                                                <div class="buttonn">
-                                                    <Link to={'/sign-up'} class="btnn fx01">
+                                                <div className="buttonn">
+                                                    <Link to={'/sign-up'} className="btnn fx01">
                                                         <span>Sign up</span>
                                                     </Link>
                                                 </div>
-                                                <div class="buttonn">
-                                                    <Link href="#" to={'/Login'} class="btnn fx01">
+                                                <div className="buttonn">
+                                                    <Link href="#" to={'/Login'} className="btnn fx01">
                                                         <span>Log in</span>
                                                     </Link>
                                                 </div>
@@ -223,8 +271,8 @@ export default function Home() {
 
                                 <h1>PLAY TO WIN</h1>
                                 <p>play lottery to win big price <br /> deposit tron and play game</p>
-                                <div class="button_ti mt-5">
-                                    <Link to={'/sign-up'} class="btnn fx01">
+                                <div className="button_ti mt-5">
+                                    <Link to={'/sign-up'} className="btnn fx01">
                                         <span>see more</span>
                                     </Link>
                                 </div>
@@ -274,7 +322,7 @@ export default function Home() {
                             <tbody>
                                 {data.tickets && data.tickets.map((ticket, index) => (
                                     <tr key={index}>
-                                        <td className="has-text-centered" style={{ color: '#000', fontSize: 12 }}>{joinedUsersCount}</td>
+                                        <td className="has-text-centered" style={{ color: '#000', fontSize: 12 }}>{index + 1}</td>
                                         <td className="has-text-centered" style={{ color: '#000', fontSize: 12 }}>{ticket.name}</td>
                                         <td className="has-text-centered" style={{ color: '#000', fontSize: 12 }}>1 (100 TRX)</td>
                                         <td className="has-text-centered" style={{ color: '#000', fontSize: 12 }}>joined</td>
@@ -294,23 +342,27 @@ export default function Home() {
                     <ul>
                         <li>
                             <Link to={"/"} className={selected === 'home' ? 'selected' : ''} onClick={() => handleClick('home')}>
-                                <HouseIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
+                                <img src="../assets/icon/homepn.png" width={40} className="mobileMenu_icons" />
+                                {/* <HouseIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} /> */}
                             </Link>
                         </li>
 
                         <li>
                             <Link to="/latary" className={selected === 'lotarry' ? 'selected' : ''} onClick={() => handleClick('lottery')}>
-                                <HowToVoteIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
+                                <img src="../assets/icon/lottery.png" width={50} className="mobileMenu_icons" />
+                                {/* <HowToVoteIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} /> */}
                             </Link>
                         </li>
                         <li>
                             <Link to="/Profile" className={selected === 'Profile' ? 'selected' : ''} onClick={() => handleClick('Profile')}>
-                                <AccountCircleIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
+                                <img src="../assets/icon/data-management.png" width={50} className="mobileMenu_icons" />
+                                {/* <AccountCircleIcon sx={{ fontSize: 30 }} /> */}
                             </Link>
                         </li>
                         <li>
                             <Link to="/wallet" className={selected === 'Profile' ? 'selected' : ''} onClick={() => handleClick('Wallet')}>
-                                <AccountBalanceWalletIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
+                                <img src="../assets/icon/wallet.png" width={50} className="mobileMenu_icons" />
+                                {/* <AccountBalanceWalletIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} /> */}
                             </Link>
                         </li>
 

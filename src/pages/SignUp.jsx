@@ -10,6 +10,7 @@ const SIgnUp = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [timer, setTimer] = useState(null);
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+    
 
     const handleOpenModal = () => {
         setIsOpen(true);

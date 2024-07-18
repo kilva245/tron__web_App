@@ -15,8 +15,10 @@ import ReferralPage from './pages/ReferralPage';
 import ReferralCode from './pages/ReferralCode';
 import ProtectedRoute from './pages/ProtectedRoute';
 import NotFound from './pages/NotFound';
-import MyTeam from './pages/MyTeam';
 import Setting from './pages/setting';
+import Rewards from './pages/Rewards';
+import TicketsInfo from './pages/TicketsInfo';
+import ParentTable from './pages/ParentTable';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -24,15 +26,12 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/allRef" element={<ParentTable />} />
       <Route path="*" element={<NotFound />} />
       <Route path="/sign-up" element={<SIgnUp />} />
       <Route path="/sign-up/:referralCode" element={<SIgnUp />} />
       <Route path='/Login' element={<Login />} />
       
-      <Route
-        path="/my-team"
-        element={<MyTeam />}
-      />
       <Route path='/profile' element={
         <ProtectedRoute>
           <Profile />
@@ -78,12 +77,18 @@ root.render(
           <Setting />
         </ProtectedRoute>
       } />
+      <Route path='/profile/rewards' element={
+        <ProtectedRoute>
+          <Rewards />
+        </ProtectedRoute>
+      } />
+      <Route path='/profile/tickets' element={
+          <TicketsInfo />
+      } />
+      
       
     </Routes>
   </BrowserRouter>
 );
 
 reportWebVitals();
-
-// Add a console log to check if the components are being rendered
-console.log('Components rendered!');

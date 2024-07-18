@@ -1,6 +1,6 @@
 import Header from "../components/Header";
 import PersonIcon from '@mui/icons-material/Person';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, Navigate } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import HouseIcon from '@mui/icons-material/House';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
@@ -10,10 +10,58 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import axios from "axios";
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import Notification from "./Notification";
 
 export default function Deposit() {
-    const [selected, setSelected] = useState(null);
     const navigate = useNavigate();
+    const [isOpen, setIsOpen] = useState(false);
+    const [selected, setSelected] = useState(null);
+    const [token, setToken] = useState(null); // Initialize token state
+    const [expiresAt, setExpiresAt] = useState(null);
+    const [notificationMessage, setNotificationMessage] = useState('');
+    const [showNotification, setShowNotification] = useState(false);
+  
+    useEffect(() => {
+      const storedUserData = localStorage.getItem('userData');
+      if (storedUserData) {
+        const userDataJson = JSON.parse(storedUserData);
+        setUserData(userDataJson);
+        setToken(userDataJson.token);
+      }
+    }, []);
+  
+    useEffect(() => {
+      if (token) {
+        axios.get('https://luckyx.cloud/api/v1/user/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then(response => {
+            if (response.data.code === 1) {
+              const userData = response.data.user;
+              localStorage.setItem('userData', JSON.stringify(userData));
+              setUserData(userData);
+              setToken(userData.token);
+            } else {
+              // Token has changed, display modal and redirect to login page
+              handleTokenChanged();
+            }
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }
+    }, [token]);
+    const handleTokenChanged = () => {
+        setIsOpen(true);
+        setNotificationMessage('Token axpired, Login again');
+        setShowNotification(true);
+        setTimeout(() => {
+            localStorage.removeItem('userData');
+            navigate('/login', { replace: true });
+        }, 3000); // Wait 3 seconds before redirecting to login page
+    };
 
     const handleClick = (item) => {
         setSelected(item);
@@ -67,7 +115,7 @@ export default function Deposit() {
             })
             .finally(() => {
                 setIsSubmitting(false); // set isSubmitting to false to re-enable the button
-              });
+            });
     };
 
     const handleInputChange = (e) => {
@@ -77,6 +125,7 @@ export default function Deposit() {
 
     return (
         <>
+        <Notification message={notificationMessage} open={showNotification} />
             <header>
                 <Header />
             </header>
@@ -111,59 +160,56 @@ export default function Deposit() {
                         </div>
                     </div>
                     <div className=" columns has-text-centered-mobile">
-                    <div className="column">
-          <button
-            className="btn2"
-            onClick={handleSubmit}
-            disabled={isSubmitting} // disable the button while submitting
-          >
-            {isSubmitting ? (
-              <span>
-                <i className="fas fa-spinner fa-spin" /> Loading...
-              </span>
-            ) : (
-              'Deposit'
-            )}
-          </button>
-        </div>
+                        <div className="column">
+                            <button
+                                className="btn2"
+                                onClick={handleSubmit}
+                                disabled={isSubmitting} // disable the button while submitting
+                            >
+                                {isSubmitting ? (
+                                    <span>
+                                        <i className="fas fa-spinner fa-spin" /> Loading...
+                                    </span>
+                                ) : (
+                                    'Deposit'
+                                )}
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                
+
 
                 <nav className="mobile-navbar">
                     <ul>
                         <li>
-                            <Link to={"/"} className={selected === 'home' ? 'elected' : ''} onClick={() => handleClick('home')}>
-                                <HouseIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
+                            <Link to={"/"} className={selected === 'home' ? 'selected' : ''} onClick={() => handleClick('home')}>
+                                <img src="../assets/icon/homepn.png" width={40} className="mobileMenu_icons" />
+                                {/* <HouseIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} /> */}
+                            </Link>
+                        </li>
+
+                        <li>
+                            <Link to="/latary" className={selected === 'lotarry' ? 'selected' : ''} onClick={() => handleClick('lottery')}>
+                                <img src="../assets/icon/lottery.png" width={50} className="mobileMenu_icons" />
+                                {/* <HowToVoteIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} /> */}
                             </Link>
                         </li>
                         <li>
-                            <Link to="#" className={selected === 'eferrals' ? 'elected' : ''} onClick={() => handleClick('referrals')}>
-                                <SupervisorAccountIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="#" className={selected === 'lotarry' ? 'elected' : ''} onClick={() => handleClick('lottery')}>
-                                <HowToVoteIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/Profile" className={selected === 'Profile' ? 'elected' : ''} onClick={() => handleClick('Profile')}>
-                                <AccountCircleIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
+                            <Link to="/Profile" className={selected === 'Profile' ? 'selected' : ''} onClick={() => handleClick('Profile')}>
+                                <img src="../assets/icon/data-management.png" width={50} className="mobileMenu_icons" />
+                                {/* <AccountCircleIcon sx={{ fontSize: 30 }} /> */}
                             </Link>
                         </li>
                         <li>
                             <Link to="/wallet" className={selected === 'Profile' ? 'selected' : ''} onClick={() => handleClick('Wallet')}>
-                                <AccountBalanceWalletIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
+                                <img src="../assets/icon/wallet.png" width={50} className="mobileMenu_icons" />
+                                {/* <AccountBalanceWalletIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} /> */}
                             </Link>
                         </li>
-                        <li>
-                            <Link to="#" className={selected === 'ettings' ? 'selected' : ''} onClick={() => handleClick('settings')}>
-                                <SettingsIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
-                            </Link>
-                        </li>
+
                     </ul>
+
                 </nav>
             </main >
         </>

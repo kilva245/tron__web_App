@@ -18,7 +18,7 @@ import ProtectedRoute from './pages/ProtectedRoute';
 const App = () => {
   const [token, setToken] = useState(null);
   const [userData, setUserData] = useState(null);
-
+  
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     const storedUserData = localStorage.getItem('userData');
@@ -42,6 +42,8 @@ const App = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userData');
   };
+
+  
 
   return (
     <BrowserRouter>

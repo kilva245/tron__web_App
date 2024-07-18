@@ -1,19 +1,11 @@
 import Header from "../components/Header";
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from "react-router-dom"; import HouseIcon from '@mui/icons-material/House';
-import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
-import HowToVoteIcon from '@mui/icons-material/HowToVote';
-import SettingsIcon from '@mui/icons-material/Settings';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import TelegramIcon from '@mui/icons-material/Telegram';
-import GroupsIcon from '@mui/icons-material/Groups';
-import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
-import LogoutIcon from '@mui/icons-material/Logout';
+import { Link, useNavigate } from "react-router-dom"; 
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Notification from "../components/Notification";
 
 
 export default function Setting() {
@@ -23,44 +15,9 @@ export default function Setting() {
         setSelected(item);
     };
 
-    const [burger_class, setBurgerClass] = useState("burger-bar unclicked")
-    const [menu_class, setMenuClass] = useState("menu hidden")
-    const [isMenuClicked, setIsMenuClicked] = useState(false)
-
-    const updateMenu = () => {
-        if (!isMenuClicked) {
-            setBurgerClass("burger-bar clicked")
-            setMenuClass("menu visible")
-        }
-        else {
-            setBurgerClass("burger-bar unclicked")
-            setMenuClass("menu hidden")
-        }
-
-        setIsMenuClicked(!isMenuClicked)
-    }
-
-    const close1 = () => {
-        if (!isMenuClicked) {
-            setBurgerClass("burger-bar clicked")
-            setMenuClass("menu visible")
-        }
-        else {
-            setBurgerClass("burger-bar unclicked")
-            setMenuClass("menu hidden")
-        }
-        setIsMenuClicked(false)
-    }
-
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userData, setUserData] = useState({});
-    const [joinedUsersCount, setJoinedUsersCount] = useState(1);
 
-    useEffect(() => {
-        function handleUserJoined() {
-            setJoinedUsersCount(prevCount => prevCount + 1);
-        }
-    }, []);
 
     useEffect(() => {
         const storedUserData = localStorage.getItem('userData');
@@ -95,39 +52,38 @@ export default function Setting() {
     const [openModal, setOpenModal] = useState(false);
 
     const handleUpdateProfile = () => {
-        const formData = new FormData();
-        formData.append('name', newName);
-        formData.append('email', newEmail);
-        formData.append('password', newPassword);
-        if (newAvatar) {
-            formData.append('avatar', newAvatar);
+        if (!newName && !newEmail && !newAvatar) {
+            alert('Please fill in at least one field to update your profile.');
+            return;
         }
+
+        const formData = new FormData();
+        if (newName) formData.append('name', newName);
+        if (newEmail) formData.append('email', newEmail);
+        if (newAvatar) formData.append('avatar', newAvatar);
 
         axios.post('https://luckyx.cloud/api/v1/user/editprofile', formData, {
             headers: {
                 Authorization: `Bearer ${userData.token}`,
-                'Content-Type': 'multipart/form-data',
+                'Content-Type': 'ultipart/form-data',
             },
         })
             .then(response => {
                 console.log(response.data);
                 setUser({
                     ...userData,
-                    name: newName,
-                    email: newEmail,
-                    password: newPassword,
+                    name: newName || userData.name,
+                    email: newEmail || userData.email,
                     avatar: newAvatar ? URL.createObjectURL(newAvatar) : userData.avatar,
                 });
 
                 // Update userData in local storage
                 const updatedUserData = {
                     ...userData,
-                    name: newName,
-                    email: newEmail,
-                    password: newPassword,
+                    name: newName || userData.name,
+                    email: newEmail || userData.email,
                     avatar: newAvatar ? URL.createObjectURL(newAvatar) : userData.avatar,
                 };
-                localStorage.setItem('userData', JSON.stringify(updatedUserData));
 
                 setOpenModal(true); // open the modal
             })
@@ -154,39 +110,108 @@ export default function Setting() {
     };
 
     const [oldPassword, setOldPassword] = useState('');
+
+    const handleOldPasswordChange = (event) => {
+        setOldPassword(event.target.value);
+    };
+
+    const handleNewPasswordChange = (event) => {
+        setNewPassword(event.target.value);
+    };
+
     const [passwordChanged, setPasswordChanged] = useState(false);
 
     const handlePasswordChange = async () => {
         if (oldPassword && newPassword) {
           try {
             const token = userData.token;
-            const response = await fetch('https://luckyx.cloud/api/v1/user/Password', {
-              method: 'POST',
+            const formData = new FormData();
+            formData.append('oldpassword', oldPassword);
+            formData.append('password', newPassword);
+      
+            const config = {
               headers: {
-                'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
+                'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
               },
-              body: JSON.stringify({
-                old_password: oldPassword,
-                new_password: newPassword,
-              }),
-            });
-            const data = await response.json();
-            if (data.success) {
-              setPasswordChanged(true);
+            };
+      
+            const response = await axios.post('https://luckyx.cloud/api/v1/user/password', formData, config);
+            console.log(response.data.code)
+            if (response.data.code === 104) {
+                // Show error notification
+                setNotificationMessage(response.data.error);
+                setShowNotification(true);
+                setTimeout(() => {
+                    setShowNotification(false);
+                }, 4000)
             } else {
-              alert('Error changing password');
+                // Show success notification and refresh page
+                setNotificationMessage('Password changed successfully!');
+                setShowNotification(true);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000); // Refresh page after 2 seconds
             }
+            console.log(response.data); // <- log the response data
           } catch (error) {
             console.error(error);
           }
         }
       };
+    const navigate = useNavigate();
+    const [token, setToken] = useState(null); // Initialize token state
+    const [expiresAt, setExpiresAt] = useState(null);
+    const [isOpen, setIsOpen] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
+    const [showNotification, setShowNotification] = useState(false);
 
+    useEffect(() => {
+        const storedUserData = localStorage.getItem('userData');
+        if (storedUserData) {
+            const userDataJson = JSON.parse(storedUserData);
+            setUserData(userDataJson);
+            setToken(userDataJson.token);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (token) {
+            axios.get('https://luckyx.cloud/api/v1/user/profile', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+                .then(response => {
+                    if (response.data.code === 1) {
+                        const userData = response.data.user;
+                        localStorage.setItem('userData', JSON.stringify(userData));
+                        setUserData(userData);
+                        setToken(userData.token);
+                    } else {
+                        // Token has changed, display modal and redirect to login page
+                        handleTokenChanged();
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    }, [token]);
+    const handleTokenChanged = () => {
+        setIsOpen(true);
+        setNotificationMessage('Token axpired, Login again');
+        setShowNotification(true);
+        setTimeout(() => {
+            localStorage.removeItem('userData');
+            navigate('/login', { replace: true });
+        }, 3000); // Wait 3 seconds before redirecting to login page
+    };
 
 
     return (
         <>
+            <Notification message={notificationMessage} open={showNotification} />
             <header>
                 <Header />
             </header>
@@ -196,7 +221,6 @@ export default function Setting() {
                     <h2 className="title">Profile</h2>
                     <div className="profile-info">
                         <p className="label">Name:</p>
-                        <p className="value">{userData.name}</p>
                         <input
                             type="text"
                             value={newName}
@@ -205,7 +229,6 @@ export default function Setting() {
                             className="input-field"
                         />
                         <p className="label">Email:</p>
-                        <p className="value">{userData.email}</p>
                         <input
                             type="email"
                             value={newEmail}
@@ -213,25 +236,7 @@ export default function Setting() {
                             placeholder="New email"
                             className="input-field"
                         />
-                        <div className="password-change">
-                            <h2 className="label">Change Password</h2>
-                            <input
-                                type="password"
-                                placeholder="Old Password"
-                                value={oldPassword}
-                                onChange={(e) => setOldPassword(e.target.value)}
-                                className="input-field"
-                            />
-                            <input
-                                type="password"
-                                placeholder="New Password"
-                                value={newPassword}
-                                onChange={(e) => setNewPassword(e.target.value)}
-                                className="input-field"
-                            />
-                            <button style={{color: 'yellow'}} onClick={handlePasswordChange}>Change Password</button>
-                            {passwordChanged && <p>Password changed successfully!</p>}
-                        </div>
+                        
                         <p className="label">Avatar:</p>
                         <img src={userData.avatar} alt="Avatar" className="avatar" />
                         <input
@@ -243,6 +248,26 @@ export default function Setting() {
                             Update Profile
                         </button>
                     </div>
+                    <br />
+                    <div className="password-change">
+                            <h2 className="label">Change Password</h2>
+                            <input
+                                type="password"
+                                placeholder="Old Password"
+                                value={oldPassword}
+                                onChange={handleOldPasswordChange}
+                                className="input-field"
+                            />
+                            <input
+                                type="password"
+                                placeholder="New Password"
+                                value={newPassword}
+                                onChange={handleNewPasswordChange}
+                                className="input-field"
+                            />
+                            <button  className="update-btn" onClick={handlePasswordChange}>Change Password</button>
+                            
+                        </div>
 
                     <Modal
                         open={openModal}
@@ -277,27 +302,32 @@ export default function Setting() {
                     <ul>
                         <li>
                             <Link to={"/"} className={selected === 'home' ? 'selected' : ''} onClick={() => handleClick('home')}>
-                                <HouseIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
+                                <img alt="icon" src="../assets/icon/homepn.png" width={40} className="mobileMenu_icons" />
+                                {/* <HouseIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} /> */}
                             </Link>
                         </li>
 
                         <li>
                             <Link to="/latary" className={selected === 'lotarry' ? 'selected' : ''} onClick={() => handleClick('lottery')}>
-                                <HowToVoteIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
+                                <img alt="icon" src="../assets/icon/lottery.png" width={50} className="mobileMenu_icons" />
+                                {/* <HowToVoteIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} /> */}
                             </Link>
                         </li>
                         <li>
                             <Link to="/Profile" className={selected === 'Profile' ? 'selected' : ''} onClick={() => handleClick('Profile')}>
-                                <AccountCircleIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
+                                <img alt="icon" src="../assets/icon/data-management.png" width={50} className="mobileMenu_icons" />
+                                {/* <AccountCircleIcon sx={{ fontSize: 30 }} /> */}
                             </Link>
                         </li>
                         <li>
                             <Link to="/wallet" className={selected === 'Profile' ? 'selected' : ''} onClick={() => handleClick('Wallet')}>
-                                <AccountBalanceWalletIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} />
+                                <img alt="icon" src="../assets/icon/wallet.png" width={50} className="mobileMenu_icons" />
+                                {/* <AccountBalanceWalletIcon className="mobileMenu_icons" sx={{ fontSize: 30 }} /> */}
                             </Link>
                         </li>
 
                     </ul>
+
                 </nav>
             </main>
         </>
