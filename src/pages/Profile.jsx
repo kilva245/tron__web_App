@@ -185,7 +185,7 @@ export default function Profile() {
                                         <div className="columns is-flex-mobile has-text-centered">
 
                                             <div className="column">
-                                                <p style={{ fontSize: 14, fontWeight: 'bold' }}> rewards <br /><strong style={{ fontSize: 40, color: 'yellow' }}>{totalReward} </strong></p>
+                                                <p style={{ fontSize: 14, fontWeight: 'bold' }}> rewards <br /><strong style={{ fontSize: 40, color: 'yellow' }}>{userData.reward} </strong></p>
                                             </div>
 
 
@@ -215,8 +215,8 @@ export default function Profile() {
                                         referalls have
                                     </p>
                                     <span className="is-flex mt-5">
-                                        {subLeftAvatar && <img src={`${process.env.PUBLIC_URL}/${subLeftAvatar}`} alt={subLeftName ?? ''} />}
-                                        {subRightAvatar && <img src={`${process.env.PUBLIC_URL}/${subRightAvatar}`} alt={subRightName ?? ''} />}
+                                        {subLeftAvatar && <img src={`${process.env.PUBLIC_URL}/${subLeftAvatar}`} alt={'image'} />}
+                                        {subRightAvatar && <img src={`${process.env.PUBLIC_URL}/${subRightAvatar}`} alt={'image'} />}
                                         <div className="info_image">
                                             <p className="has-text-light">+{(subLeftName ? 1 : 0) + (subRightName ? 1 : 0)}</p>
                                         </div>

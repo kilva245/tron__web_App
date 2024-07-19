@@ -384,7 +384,8 @@ header .buttons {
     color: #fff;
 }
 
-.tron__dep , .tron__dep2 {
+.tron__dep,
+.tron__dep2 {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -634,6 +635,7 @@ header .buttons {
     object-fit: cover;
     position: absolute;
     border-radius: 10px;
+    left: 10px;
     border: 1px solid var(--firt-color);
 }
 
@@ -915,6 +917,39 @@ main .wallet_page_back {
     display: flex;
     justify-content: space-between;
 }
+/* 
+.table_pad {
+    padding: 0 20;
+} */
+
+.responsive-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.responsive-table th,
+.responsive-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #555;
+    color: #000;
+    background-color: white;
+}
+
+.responsive-table th {
+    background-color: #f0f0f0;
+}
+
+@media only screen and (max-width: 768px) {
+    .responsive-table {
+        font-size: 14px;
+    }
+
+    .responsive-table th,
+    .responsive-table td {
+        padding: 5px;
+    }
+}
 
 .table-left,
 .table-right {
@@ -955,14 +990,16 @@ td {
     align-items: center; */
     /* margin-top: 2em; */
 }
-.ticket_page table , .ticket_page table th {
+
+.ticket_page table,
+.ticket_page table th {
     background-color: var(--firt-color) !important;
     color: #000;
     border-radius: 10px;
 }
 
 .pending_col {
-    color: yellow ;
+    color: yellow;
     font-weight: bold;
 }
 
@@ -1582,7 +1619,7 @@ td {
         height: 16em;
     }
 
-    .reftb{
+    .reftb {
         margin-bottom: 7em;
     }
 
@@ -1736,7 +1773,9 @@ td {
     .referral-code {
         height: 90vh !important;
     }
-    .reward-main, .ticketinfo-main{
+
+    .reward-main,
+    .ticketinfo-main {
         height: 79vh !important;
     }
 }

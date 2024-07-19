@@ -291,7 +291,7 @@ export default function Home() {
                                     <div className="column wallet__info_heads ">
                                         <span>
                                             <p>Balance</p>
-                                            <h3>{userData.balance}TRX</h3>
+                                            <h3>{userData.balance} TRX</h3>
                                             <h4 style={{ color: 'yellow' }}>Available Balance</h4>
                                         </span>
                                         <div className=" tron__dep">

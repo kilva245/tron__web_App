@@ -107,10 +107,6 @@ export default function Rewards() {
         'Authorization': `Bearer ${token}`,
     };
 
-    const [leftActiveUsers, setLeftActiveUsers] = useState(0);
-    const [leftInactiveUsers, setLeftInactiveUsers] = useState(0);
-    const [rightActiveUsers, setRightActiveUsers] = useState(0);
-    const [rightInactiveUsers, setRightInactiveUsers] = useState(0);
 
     useEffect(() => {
         const fetchChildren = async () => {
@@ -120,18 +116,10 @@ export default function Rewards() {
                 });
                 const children = response.data.children;
                 if (Array.isArray(children)) {
-                    const leftActiveUsers = children.filter(child => child.parent_type === 'L' && child.reward > 0).length;
-                    const leftInactiveUsers = children.filter(child => child.parent_type === 'L' && child.reward === 0).length;
-                    const rightActiveUsers = children.filter(child => child.parent_type === 'R' && child.reward > 0).length;
-                    const rightInactiveUsers = children.filter(child => child.parent_type === 'R' && child.reward === 0).length;
 
                     setLeftDailyIncome(children.filter(child => child.parent_type === 'L').reduce((acc, current) => acc + current.reward, 0));
                     setRightDailyIncome(children.filter(child => child.parent_type === 'R').reduce((acc, current) => acc + current.reward, 0));
 
-                    setLeftActiveUsers(leftActiveUsers);
-                    setLeftInactiveUsers(leftInactiveUsers);
-                    setRightActiveUsers(rightActiveUsers);
-                    setRightInactiveUsers(rightInactiveUsers);
 
                 } else {
                     console.error('Invalid response data:', response.data);
@@ -145,6 +133,49 @@ export default function Rewards() {
         fetchChildren();
     }, [token]);
 
+
+    useEffect(() => {
+        const storedUserData = localStorage.getItem('userData');
+        if (storedUserData) {
+            const userDataJson = JSON.parse(storedUserData);
+            setUserData(userDataJson);
+            setToken(userDataJson.token);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (token) {
+            axios.get('https://luckyx.cloud/api/v1/user/profile', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+                .then(response => {
+                    if (response.data.code === 1) {
+                        const userData = response.data.user;
+                        localStorage.setItem('userData', JSON.stringify(userData));
+                        setUserData(userData);
+                        setToken(userData.token);
+                    } else {
+                        // Token has changed, display modal and redirect to login page
+                        handleTokenChanged();
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    }, [token]);
+    const handleTokenChanged = () => {
+        setIsOpen(true);
+        setNotificationMessage('Token axpired, Login again');
+        setShowNotification(true);
+        setTimeout(() => {
+            localStorage.removeItem('userData');
+            navigate('/login', { replace: true });
+        }, 3000); // Wait 3 seconds before redirecting to login page
+    };
+
     return (
         <>
             <header>
@@ -153,16 +184,16 @@ export default function Rewards() {
 
             <main className="reward-main" style={{ backgroundColor: '#f070e8', height: '100vh', marginBottom: 0 }}>
                 <div className=" has-text-centered top_rewards_head">
-                    <h2 style={{ fontSize: 20, color: '#000', fontWeight: 'bold' }} >MAX daily reward: 1000TRX</h2>
+                    <h2 style={{ fontSize: 20, color: '#000', fontWeight: 'bold', padding: 10, backgroundColor: '#1fd8f2' }} >MAX daily reward: 1000TRX</h2>
                 </div>
                 <div className="chart-container">
                     <CircularProgressbar
-                        value={totalRewards}
+                        value={userData.reward}
                         maxValue={1000}
-                        text={`${totalRewards} TRX`}
+                        text={`${userData.reward} TRX`}
                         styles={{
                             path: {
-                                stroke: totalRewards >= 1000 ? 'red' : 'yellow',
+                                stroke: userData.reward >= 1000 ? 'red' : 'yellow',
                                 strokeWidth: 10,
                             },
                             trail: {
@@ -219,14 +250,6 @@ export default function Rewards() {
                                 <td>Volume of Ticket Sales</td>
                                 <td>{leftDailyIncome}</td>
                             </tr>
-                            <tr>
-                                <td>Active Users</td>
-                                <td>{leftActiveUsers}</td>
-                            </tr>
-                            <tr>
-                                <td>Inactive Users</td>
-                                <td>{leftInactiveUsers}</td>
-                            </tr>
                         </tbody>
                     </table>
 
@@ -242,13 +265,36 @@ export default function Rewards() {
                                 <td>Volume of Ticket Sales</td>
                                 <td>{rightDailyIncome}</td>
                             </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div className="container table_pad">
+                    <table className="table-rewards responsive-table">
+                        <thead>
                             <tr>
-                                <td>Active Users</td>
-                                <td>{rightActiveUsers}</td>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Total Reward</th>
+                                <th>Potential Fund</th>
+                                <th>Balance</th>
+                                <th>Right Score</th>
+                                <th>Left Score</th>
+                                <th>Income Ceiling</th>
+                                <th>Actions</th>
                             </tr>
+                        </thead>
+                        <tbody>
                             <tr>
-                                <td>Inactive Users</td>
-                                <td>{rightInactiveUsers}</td>
+                                <td>2023-02-20</td>
+                                <td>2023-02-25</td>
+                                <td>0 TRX</td>
+                                <td>0 TRX</td>
+                                <td>0 TRX</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>21</td>
+                                <td><span style={{ backgroundColor: 'yellow', padding: '5px', borderRadius: 10 }}>Not Reached</span></td>
                             </tr>
                         </tbody>
                     </table>

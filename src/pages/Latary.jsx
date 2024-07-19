@@ -262,6 +262,7 @@ export default function Latary() {
                                             <tr>
                                                 <th>Winners</th>
                                                 <th>end Time </th>
+                                                <th>Price </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -269,6 +270,7 @@ export default function Latary() {
                                                 <tr key={index}>
                                                     <td >{winner}</td>
                                                     <td>{data2.find(item => item.winner === winner)?.end_time ? new Date(data2.find(item => item.winner === winner).end_time * 1000).toUTCString() : 'N/A'}</td>
+                                                    <td > 500 TRX</td>
                                                 </tr>
                                             ))}
                                         </tbody>
