@@ -242,13 +242,13 @@ export default function Rewards() {
                         <thead>
                             <tr>
                                 <th>Left </th>
-                                <th>Value</th>
+                                <th>SCORE</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Volume of Ticket Sales</td>
-                                <td>{leftDailyIncome}</td>
+                                <td>Left score</td>
+                                <td>0</td>
                             </tr>
                         </tbody>
                     </table>
@@ -257,13 +257,13 @@ export default function Rewards() {
                         <thead>
                             <tr>
                                 <th>Right </th>
-                                <th>Value</th>
+                                <th>SCORE</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Volume of Ticket Sales</td>
-                                <td>{rightDailyIncome}</td>
+                                <td>Right score</td>
+                                <td>0</td>
                             </tr>
                         </tbody>
                     </table>
@@ -276,25 +276,31 @@ export default function Rewards() {
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Total Reward</th>
-                                <th>Potential Fund</th>
+                                <th>save score</th>
                                 <th>Balance</th>
-                                <th>Right Score</th>
-                                <th>Left Score</th>
                                 <th>Income Ceiling</th>
-                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>2023-02-20</td>
-                                <td>2023-02-25</td>
-                                <td>0 TRX</td>
-                                <td>0 TRX</td>
-                                <td>0 TRX</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>21</td>
-                                <td><span style={{ backgroundColor: 'yellow', padding: '5px', borderRadius: 10 }}>Not Reached</span></td>
+                            <tr >
+                                <td>
+                                    <p>2023-02-20</p>
+                                </td>
+                                <td>
+                                    <p>2023-02-25</p>
+                                </td>
+                                <td> 
+                                    <p>0 TRX</p>
+                                </td>
+                                <td> 
+                                    <p>0 TRX</p>
+                                </td>
+                                <td>
+                                    <p>0 TRX</p>
+                                </td>
+                                <td>
+                                    <p>21</p>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

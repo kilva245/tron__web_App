@@ -934,10 +934,24 @@ main .wallet_page_back {
     border-bottom: 1px solid #555;
     color: #000;
     background-color: white;
+
+}
+
+.responsive-table td p{
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+}
+
+.responsive-table tr th{
+    font-size: 10px !important;
 }
 
 .responsive-table th {
     background-color: #f0f0f0;
+    
 }
 
 @media only screen and (max-width: 768px) {
