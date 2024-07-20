@@ -65,7 +65,7 @@ export default function Profile() {
     const [parents, setParents] = useState([]);
     const [loading, setLoading] = useState(false);
     const [totalReward, setTotalReward] = useState(0);
-
+    const [box, setBox] = useState([])
 
     const authHeader = {
         'Authorization': `Bearer ${token}`,
@@ -77,6 +77,8 @@ export default function Profile() {
                 const response = await axios.get('https://luckyx.cloud/api/v1/user/box', {
                     headers: authHeader,
                 });
+                const box = response.data.box; // <--- Access the first element of the array
+                setBox(box);
                 const children = response.data;
                 setParents(children);
                 if (children && children.children && Array.isArray(children.children)) {
@@ -183,11 +185,11 @@ export default function Profile() {
                                     <div className="info_pending ">
                                         <span className="detailss" >Details</span>
                                         <div className="columns is-flex-mobile has-text-centered">
-
-                                            <div className="column">
-                                                <p style={{ fontSize: 14, fontWeight: 'bold' }}> rewards <br /><strong style={{ fontSize: 40, color: 'yellow' }}>{userData.reward} </strong></p>
-                                            </div>
-
+                                            {box && box.slice(-1).map((item) => (
+                                                <div className="column">
+                                                    <p style={{ fontSize: 14, fontWeight: 'bold' }}> rewards <br /><strong style={{ fontSize: 40, color: 'yellow' }}>{item.total_reward} </strong></p>
+                                                </div>
+                                            ))}
 
                                         </div>
                                     </div>

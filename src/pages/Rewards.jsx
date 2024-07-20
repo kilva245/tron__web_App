@@ -100,7 +100,7 @@ export default function Rewards() {
     const [loading, setLoading] = useState(true);
     const [leftDailyIncome, setLeftDailyIncome] = useState(0);
     const [rightDailyIncome, setRightDailyIncome] = useState(0);
-    const totalRewards = leftDailyIncome + rightDailyIncome;
+    const [box, setBox] = useState([])
 
 
     const authHeader = {
@@ -114,18 +114,11 @@ export default function Rewards() {
                 const response = await axios.get('https://luckyx.cloud/api/v1/user/box', {
                     headers: authHeader,
                 });
-                const children = response.data.children;
-                if (Array.isArray(children)) {
-
-                    setLeftDailyIncome(children.filter(child => child.parent_type === 'L').reduce((acc, current) => acc + current.reward, 0));
-                    setRightDailyIncome(children.filter(child => child.parent_type === 'R').reduce((acc, current) => acc + current.reward, 0));
-
-
-                } else {
-                    console.error('Invalid response data:', response.data);
-                }
+                const box = response.data.box; // <--- Access the first element of the array
+                console.log(token)
+                setBox(box);
             } catch (error) {
-                console.error('Error fetching children:', error);
+                // console.error('Error fetching children:', error);
             } finally {
                 setLoading(false);
             }
@@ -162,7 +155,7 @@ export default function Rewards() {
                     }
                 })
                 .catch(error => {
-                    console.error(error);
+                    // console.error(error);
                 });
         }
     }, [token]);
@@ -187,13 +180,14 @@ export default function Rewards() {
                     <h2 style={{ fontSize: 20, color: '#000', fontWeight: 'bold', padding: 10, backgroundColor: '#1fd8f2' }} >MAX daily reward: 1000TRX</h2>
                 </div>
                 <div className="chart-container">
+                {box && box.slice(-1).map((item) => (
                     <CircularProgressbar
-                        value={userData.reward}
+                        value={item.reach}
                         maxValue={1000}
-                        text={`${userData.reward} TRX`}
+                        text={`${item.reach} TRX`}
                         styles={{
                             path: {
-                                stroke: userData.reward >= 1000 ? 'red' : 'yellow',
+                                stroke: item.reach >= 1000 ? 'red' : 'yellow',
                                 strokeWidth: 10,
                             },
                             trail: {
@@ -212,6 +206,7 @@ export default function Rewards() {
                         <span style={{ fontSize: '12px' }}>{leftDailyIncome} Left</span>
                         <span style={{ fontSize: '12px' }}>{rightDailyIncome} Right</span>
                     </CircularProgressbar>
+                    ))}
                     {/* <CircularProgressbar
                         value={progress}
                         text={`${dailyIncome} TRX`}
@@ -237,74 +232,72 @@ export default function Rewards() {
 
 
 
-                <div className="tables-container container">
-                    <table className="table-left">
-                        <thead>
-                            <tr>
-                                <th>Left </th>
-                                <th>SCORE</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Left score</td>
-                                <td>0</td>
-                            </tr>
-                        </tbody>
-                    </table>
 
-                    <table className="table-right">
-                        <thead>
-                            <tr>
-                                <th>Right </th>
-                                <th>SCORE</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Right score</td>
-                                <td>0</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                {box && box.slice(-1).map((item) => (
+                    
+                    <>
+                        <div className="tables-container container">
+                            <table className="table-left">
+                                <thead>
+                                    <tr>
+                                        <th>Left </th>
+                                        <th>SCORE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Active ticket</td>
+                                        <td>{item.left_points}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-                <div className="container table_pad">
-                    <table className="table-rewards responsive-table">
-                        <thead>
-                            <tr>
-                                <th>Start Date</th>
-                                <th>End Date</th>
-                                <th>Total Reward</th>
-                                <th>save score</th>
-                                <th>Balance</th>
-                                <th>Income Ceiling</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr >
-                                <td>
-                                    <p>2023-02-20</p>
-                                </td>
-                                <td>
-                                    <p>2023-02-25</p>
-                                </td>
-                                <td> 
-                                    <p>0 TRX</p>
-                                </td>
-                                <td> 
-                                    <p>0 TRX</p>
-                                </td>
-                                <td>
-                                    <p>0 TRX</p>
-                                </td>
-                                <td>
-                                    <p>21</p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                            <table className="table-right">
+                                <thead>
+                                    <tr>
+                                        <th>Right </th>
+                                        <th>SCORE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Active ticket</td>
+                                        <td>{item.right_points}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div className="container table_pad">
+                            <table className="table-rewards responsive-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Total Reward</th>
+                                        <th>save score</th>
+                                        <th>Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr >
+                                        <td>
+                                            <p>{`${item.ymd.toString().slice(0, 4)}-${item.ymd.toString().slice(4, 6)}-${item.ymd.toString().slice(6, 8)}`}</p>
+                                        </td>
+                                        <td>
+                                            <p>{item.total_reward} TRX</p>
+                                        </td>
+                                        <td>
+                                            <p>{item.total} TRX</p>
+                                        </td>
+                                        <td>
+                                            <p>{item.balance} TRX</p>
+                                        </td>
+                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div></>
+                ))}
 
                 <div className="navbar-end">
                     {isLoggedIn ? (
