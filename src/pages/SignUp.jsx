@@ -10,7 +10,7 @@ const SIgnUp = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [timer, setTimer] = useState(null);
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-    
+
 
     const handleOpenModal = () => {
         setIsOpen(true);
@@ -288,26 +288,18 @@ const SIgnUp = () => {
                                     />
                                 </header>
                                 <section className="modal-card-body">
-                                    <input
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        placeholder="Enter your email"
-                                        className="input"
-                                    />
+                                    <a href="https://t.me/upporteronline24" style={{ color: '#000' }}>
+                                        <button
+                                            onClick={handleSendEmail}
+                                            className="button is-primary"
+                                            disabled={isButtonDisabled}
+                                            style={{ display: 'block', position: 'relative', top: 0, left: 0, padding: 20 }}
+                                        >
+                                            contact us
+                                        </button>
+                                    </a>
                                 </section>
-                                <footer className="modal-card-foot" style={{ padding: 10 }}>
-                                    <button
-                                        onClick={handleSendEmail}
-                                        className="button is-primary"
-                                        disabled={isButtonDisabled}
-                                        style={{ display: 'block', position: 'relative', top: 0, left: 0, padding: 20 }}
-                                    >
-                                        {timer !== null
-                                            ? `Resend code in ${timer} seconds`
-                                            : "Get Code"}
-                                    </button>
-                                </footer>
+
                             </div>
                         </div>
                     </div>

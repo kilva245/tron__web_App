@@ -19,6 +19,7 @@ export default function Profile() {
     const [isOpen, setIsOpen] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState('');
     const [showNotification, setShowNotification] = useState(false);
+    const UserToken = userData.token
 
     useEffect(() => {
         const storedUserData = localStorage.getItem('userData');

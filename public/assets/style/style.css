@@ -933,7 +933,7 @@ main .wallet_page_back {
     text-align: left;
     border-bottom: 1px solid #555;
     color: #000;
-    background-color: white;
+    background-color: var(--firt-color);
 
 }
 
@@ -950,7 +950,7 @@ main .wallet_page_back {
 }
 
 .responsive-table th {
-    background-color: #f0f0f0;
+    background-color: var(--firt-color);
     
 }
 

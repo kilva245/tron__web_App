@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate, Navigate } from "react-router-dom";
 import Modal from "react-modal";
 import axios from 'axios';
@@ -14,9 +14,9 @@ const Login = () => {
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState('');
     const [showNotification, setShowNotification] = useState(false);
-    
-  
-    
+
+
+
 
 
     const handleOpenModal = () => {
@@ -193,26 +193,18 @@ const Login = () => {
                                     />
                                 </header>
                                 <section className="modal-card-body">
-                                    <input
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        placeholder="Enter your email"
-                                        className="input"
-                                    />
+                                    <a href="https://t.me/upporteronline24" style={{color:'#000'}}>
+                                        <button
+                                            onClick={handleSendEmail}
+                                            className="button is-primary"
+                                            disabled={isButtonDisabled}
+                                            style={{ display: 'block', position: 'relative', top: 0, left: 0, padding: 20 }}
+                                        >
+                                            contact us
+                                        </button>
+                                    </a>
                                 </section>
-                                <footer className="modal-card-foot" style={{ padding: 10 }}>
-                                    <button
-                                        onClick={handleSendEmail}
-                                        className="button is-primary"
-                                        disabled={isButtonDisabled}
-                                        style={{ display: 'block', position: 'relative', top: 0, left: 0, padding: 20 }}
-                                    >
-                                        {timer !== null
-                                            ? `Resend code in ${timer} seconds`
-                                            : "Get Code"}
-                                    </button>
-                                </footer>
+
                             </div>
                         </div>
                     </div>
